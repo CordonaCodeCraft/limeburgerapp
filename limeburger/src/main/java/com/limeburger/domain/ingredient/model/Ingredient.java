@@ -1,13 +1,14 @@
 package com.limeburger.domain.ingredient.model;
 
 import com.limeburger.domain.BaseEntity;
-import com.limeburger.domain.allergen.Allergen;
+import com.limeburger.domain.allergen.model.Allergen;
 import com.limeburger.domain.burger.model.Burger;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
@@ -15,10 +16,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
 
 @Entity(name = "Ingredient")
 @Table(name = "ingredients")
@@ -26,7 +25,6 @@ import static javax.persistence.CascadeType.PERSIST;
 @Setter
 @SuperBuilder
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 public class Ingredient extends BaseEntity {
 
   @NotNull(message = "Ingredient type can not be empty")
@@ -44,16 +42,16 @@ public class Ingredient extends BaseEntity {
   @Column(unique = true)
   @NotBlank(message = "Description can not be empty")
   @Length(
-          min = 25,
-          max = 255,
-          message = "Description must be between 10 (inclusive) and 255 (inclusive) characters")
+      min = 10,
+      max = 255,
+      message = "Description must be between 10 (inclusive) and 255 (inclusive) characters")
   private String description;
 
   @Column(unique = true)
   @NotBlank(message = "Ingredient image URL can not be empty")
   private String imageUrl;
 
-  @NotNull(message = "Ingredient weight can not be empty")
+  @NotNull(message = "Ingredient grammage can not be empty")
   @Positive(message = "Grammage must be positive value")
   @Range(
       min = 10,
@@ -63,8 +61,8 @@ public class Ingredient extends BaseEntity {
 
   @NotNull(message = "Calories can not be empty")
   @Positive(message = "Calories value must be positive real digit")
-  @DecimalMin(value = "1.00", message = "Calorie value can not be lesser than 1.00")
-  @DecimalMax(value = "250.00", message = "Calorie value can not be bigger than 250.00")
+  @DecimalMin(value = "1.00", message = "Calories value can not be lesser than 1.00")
+  @DecimalMax(value = "250.00", message = "Calories value can not be bigger than 250.00")
   private BigDecimal calories;
 
   @NotNull(message = "Price can not be empty")
@@ -74,25 +72,86 @@ public class Ingredient extends BaseEntity {
   private BigDecimal price;
 
   @NotNull(message = "Cost can not be empty")
-  @Positive(message = "Price value must be positive real digit")
+  @Positive(message = "Cost value must be positive real digit")
   @DecimalMin(value = "0.50", message = "Cost value can not be lesser than 0.50")
   @DecimalMax(value = "2.00", message = "Cost value can not be bigger than 5.00")
   private BigDecimal cost;
 
   @ManyToMany(mappedBy = "ingredients")
-  private Set<Burger> burgers;
+  private Set<Burger> burgers = new HashSet<>();
 
-  @ManyToMany(cascade = {PERSIST, MERGE})
+  @ManyToMany()
   @JoinTable(
       name = "ingredients_allergens",
       joinColumns = @JoinColumn(name = "ingredient_id"),
       inverseJoinColumns = @JoinColumn(name = "allergen_id"))
-  private Set<Allergen> allergens = new HashSet<>();
+  private Set<Allergen> allergens;
 
-  enum IngredientType {
+  public void addAllergen(Allergen allergen) {
+    this.allergens.add(allergen);
+    allergen.getIngredients().add(this);
+  }
+
+  public void addAllergens(List<Allergen> allergens) {
+    allergens.forEach(
+        a -> {
+          this.allergens.add(a);
+          a.getIngredients().add(this);
+        });
+  }
+
+  @Override
+  public boolean equals(Object other) {
+
+    if (other == null) {
+      return false;
+    }
+    if (other == this) {
+      return true;
+    }
+    if (other.getClass() != getClass()) {
+      return false;
+    }
+
+    Ingredient ingredient = (Ingredient) other;
+
+    return new EqualsBuilder().append(this.name, ingredient.name).isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder().append(this.name).toHashCode();
+  }
+
+  @Override
+  public String toString() {
+    return "Ingredient{"
+        + "ingredientType="
+        + ingredientType
+        + ", name='"
+        + name
+        + '\''
+        + ", description='"
+        + description
+        + '\''
+        + ", imageUrl='"
+        + imageUrl
+        + '\''
+        + ", grammage="
+        + grammage
+        + ", calories="
+        + calories
+        + ", price="
+        + price
+        + ", cost="
+        + cost
+        + '}';
+  }
+
+  public enum IngredientType {
     BREAD("Bread"),
     MEAT("Meat"),
-    VEGETABLE("Vegetable"),
+    SALAD("Salad"),
     SAUCE("Sauce"),
     ADD_ON("Add-on"),
     ;
