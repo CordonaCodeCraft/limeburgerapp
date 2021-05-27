@@ -28,244 +28,235 @@ public class IngredientsInitializer extends Initializer {
       final AllergenService allergenService,
       final List<Allergen> allergens) {
 
-    Ingredient chickenMeat =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(MEAT)
-                .name("Chicken meat")
-                .description("Tasty chicken meat")
-                .imageUrl(MEAT_IMAGES_PATH + "chickenMeat.jpg")
-                .grammage(100)
-                .calories(BigDecimal.valueOf(100.25))
-                .price(BigDecimal.valueOf(2.00))
-                .cost(BigDecimal.valueOf(1.00))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    log.info(">>>>>>>>>> INITIALIZING INGREDIENTS... <<<<<<<<< ");
 
-    Ingredient savedChickenMeat =
+
+    final Ingredient chickenMeat =
+        Ingredient.builder()
+            .ingredientType(MEAT)
+            .name("Chicken meat")
+            .description("Tasty chicken meat")
+            .imageUrl(MEAT_IMAGES_PATH + "chickenMeat.jpg")
+            .grammage(100)
+            .calories(BigDecimal.valueOf(100.25))
+            .price(BigDecimal.valueOf(2.00))
+            .cost(BigDecimal.valueOf(1.00))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
+
+    final Ingredient savedChickenMeat =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 chickenMeat, getRandomObjects(allergens), allergenService));
 
-    Ingredient fishMeat =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(MEAT)
-                .name("Fish meat")
-                .description("Crispy fish meat")
-                .imageUrl(MEAT_IMAGES_PATH + "fishMeat.jpg")
-                .grammage(100)
-                .calories(BigDecimal.valueOf(85.96))
-                .price(BigDecimal.valueOf(1.50))
-                .cost(BigDecimal.valueOf(0.50))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    final Ingredient fishMeat =
+        Ingredient.builder()
+            .ingredientType(MEAT)
+            .name("Fish meat")
+            .description("Crispy fish meat")
+            .imageUrl(MEAT_IMAGES_PATH + "fishMeat.jpg")
+            .grammage(100)
+            .calories(BigDecimal.valueOf(85.96))
+            .price(BigDecimal.valueOf(1.50))
+            .cost(BigDecimal.valueOf(0.50))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
 
-    Ingredient savedFishMeat =
+    final Ingredient savedFishMeat =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 fishMeat, getRandomObjects(allergens), allergenService));
 
-    Ingredient porkMeat =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(MEAT)
-                .name("Pork meat")
-                .description("Yummy yummy pork meat")
-                .imageUrl(MEAT_IMAGES_PATH + "porkMeat.jpg")
-                .grammage(100)
-                .calories(BigDecimal.valueOf(120.89))
-                .price(BigDecimal.valueOf(2.50))
-                .cost(BigDecimal.valueOf(1.50))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    final Ingredient porkMeat =
+        Ingredient.builder()
+            .ingredientType(MEAT)
+            .name("Pork meat")
+            .description("Yummy yummy pork meat")
+            .imageUrl(MEAT_IMAGES_PATH + "porkMeat.jpg")
+            .grammage(100)
+            .calories(BigDecimal.valueOf(120.89))
+            .price(BigDecimal.valueOf(2.50))
+            .cost(BigDecimal.valueOf(1.50))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
 
-    Ingredient savedPorkMeat =
+    final Ingredient savedPorkMeat =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 porkMeat, getRandomObjects(allergens), allergenService));
 
-    Ingredient whiteBread =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(BREAD)
-                .name("White bread")
-                .description("Gentle white bread")
-                .imageUrl(BREAD_IMAGES_PATH + "whiteBread.jpg")
-                .grammage(80)
-                .calories(BigDecimal.valueOf(90.21))
-                .price(BigDecimal.valueOf(1.00))
-                .cost(BigDecimal.valueOf(0.75))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    final Ingredient whiteBread =
+        Ingredient.builder()
+            .ingredientType(BREAD)
+            .name("White bread")
+            .description("Gentle white bread")
+            .imageUrl(BREAD_IMAGES_PATH + "whiteBread.jpg")
+            .grammage(80)
+            .calories(BigDecimal.valueOf(90.21))
+            .price(BigDecimal.valueOf(1.00))
+            .cost(BigDecimal.valueOf(0.75))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
 
-    Ingredient savedWhiteBread =
+    final Ingredient savedWhiteBread =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 whiteBread, getRandomObjects(allergens), allergenService));
 
-    Ingredient brownBread =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(BREAD)
-                .name("Brown bread")
-                .description("Soft brown bread")
-                .imageUrl(BREAD_IMAGES_PATH + "brownBread.jpg")
-                .grammage(80)
-                .calories(BigDecimal.valueOf(40.22))
-                .price(BigDecimal.valueOf(1.50))
-                .cost(BigDecimal.valueOf(0.60))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    final Ingredient brownBread =
+        Ingredient.builder()
+            .ingredientType(BREAD)
+            .name("Brown bread")
+            .description("Soft brown bread")
+            .imageUrl(BREAD_IMAGES_PATH + "brownBread.jpg")
+            .grammage(80)
+            .calories(BigDecimal.valueOf(40.22))
+            .price(BigDecimal.valueOf(1.50))
+            .cost(BigDecimal.valueOf(0.60))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
 
-    Ingredient savedBrownBread =
+    final Ingredient savedBrownBread =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 brownBread, getRandomObjects(allergens), allergenService));
 
-    Ingredient sesameBread =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(BREAD)
-                .name("Sesame bread")
-                .description("Exotic sesame bread")
-                .imageUrl(BREAD_IMAGES_PATH + "sesameBread.jpg")
-                .grammage(80)
-                .calories(BigDecimal.valueOf(90.92))
-                .price(BigDecimal.valueOf(2.50))
-                .cost(BigDecimal.valueOf(0.65))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    final Ingredient sesameBread =
+        Ingredient.builder()
+            .ingredientType(BREAD)
+            .name("Sesame bread")
+            .description("Exotic sesame bread")
+            .imageUrl(BREAD_IMAGES_PATH + "sesameBread.jpg")
+            .grammage(80)
+            .calories(BigDecimal.valueOf(90.92))
+            .price(BigDecimal.valueOf(2.50))
+            .cost(BigDecimal.valueOf(0.65))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
 
-    Ingredient savedSesameBread =
+    final Ingredient savedSesameBread =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 sesameBread, getRandomObjects(allergens), allergenService));
 
-    Ingredient greenSalad =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(SALAD)
-                .name("Green salad")
-                .description("Healthy green salad")
-                .imageUrl(SALAD_IMAGES_PATH + "greenSalad.jpg")
-                .grammage(50)
-                .calories(BigDecimal.valueOf(25.25))
-                .price(BigDecimal.valueOf(1.50))
-                .cost(BigDecimal.valueOf(0.65))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    final Ingredient greenSalad =
+        Ingredient.builder()
+            .ingredientType(SALAD)
+            .name("Green salad")
+            .description("Healthy green salad")
+            .imageUrl(SALAD_IMAGES_PATH + "greenSalad.jpg")
+            .grammage(50)
+            .calories(BigDecimal.valueOf(25.25))
+            .price(BigDecimal.valueOf(1.50))
+            .cost(BigDecimal.valueOf(0.65))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
 
-    Ingredient savedGreenSalad =
+    final Ingredient savedGreenSalad =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 greenSalad, getRandomObjects(allergens), allergenService));
 
-    Ingredient onionSalad =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(SALAD)
-                .name("Onion salad")
-                .description("Stinky onion salad")
-                .imageUrl(SALAD_IMAGES_PATH + "onionSalad.jpg")
-                .grammage(50)
-                .calories(BigDecimal.valueOf(10.25))
-                .price(BigDecimal.valueOf(3.50))
-                .cost(BigDecimal.valueOf(0.55))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    final Ingredient onionSalad =
+        Ingredient.builder()
+            .ingredientType(SALAD)
+            .name("Onion salad")
+            .description("Stinky onion salad")
+            .imageUrl(SALAD_IMAGES_PATH + "onionSalad.jpg")
+            .grammage(50)
+            .calories(BigDecimal.valueOf(10.25))
+            .price(BigDecimal.valueOf(3.50))
+            .cost(BigDecimal.valueOf(0.55))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
 
-    Ingredient savedOnionSalad =
+    final Ingredient savedOnionSalad =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 onionSalad, getRandomObjects(allergens), allergenService));
 
-    Ingredient russianSalad =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(SALAD)
-                .name("Russian salad")
-                .description("Calorie bomb russian salad")
-                .imageUrl(SALAD_IMAGES_PATH + "russianSalad.jpg")
-                .grammage(100)
-                .calories(BigDecimal.valueOf(249.23))
-                .price(BigDecimal.valueOf(2.50))
-                .cost(BigDecimal.valueOf(0.85))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    final Ingredient russianSalad =
+        Ingredient.builder()
+            .ingredientType(SALAD)
+            .name("Russian salad")
+            .description("Calorie bomb russian salad")
+            .imageUrl(SALAD_IMAGES_PATH + "russianSalad.jpg")
+            .grammage(100)
+            .calories(BigDecimal.valueOf(249.23))
+            .price(BigDecimal.valueOf(2.50))
+            .cost(BigDecimal.valueOf(0.85))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
 
-    Ingredient savedRussianSalad =
+    final Ingredient savedRussianSalad =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 russianSalad, getRandomObjects(allergens), allergenService));
 
-    Ingredient barbequeSauce =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(SAUCE)
-                .name("Barbeque sauce")
-                .description("Tasty barbeque sauce")
-                .imageUrl(SAUCE_IMAGES_PATH + "barbequeSauce.jpg")
-                .grammage(10)
-                .calories(BigDecimal.valueOf(18.24))
-                .price(BigDecimal.valueOf(1.00))
-                .cost(BigDecimal.valueOf(0.50))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    final Ingredient barbequeSauce =
+        Ingredient.builder()
+            .ingredientType(SAUCE)
+            .name("Barbeque sauce")
+            .description("Tasty barbeque sauce")
+            .imageUrl(SAUCE_IMAGES_PATH + "barbequeSauce.jpg")
+            .grammage(10)
+            .calories(BigDecimal.valueOf(18.24))
+            .price(BigDecimal.valueOf(1.00))
+            .cost(BigDecimal.valueOf(0.50))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
 
-    Ingredient savedBarbequeSauce =
+    final Ingredient savedBarbequeSauce =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 barbequeSauce, getRandomObjects(allergens), allergenService));
 
-    Ingredient ketchupSauce =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(SAUCE)
-                .name("Ketchup sauce")
-                .description("Bloody ketchup sauce")
-                .imageUrl(SAUCE_IMAGES_PATH + "ketchupSauce.jpg")
-                .grammage(10)
-                .calories(BigDecimal.valueOf(10.84))
-                .price(BigDecimal.valueOf(1.00))
-                .cost(BigDecimal.valueOf(0.60))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    final Ingredient ketchupSauce =
+        Ingredient.builder()
+            .ingredientType(SAUCE)
+            .name("Ketchup sauce")
+            .description("Bloody ketchup sauce")
+            .imageUrl(SAUCE_IMAGES_PATH + "ketchupSauce.jpg")
+            .grammage(10)
+            .calories(BigDecimal.valueOf(10.84))
+            .price(BigDecimal.valueOf(1.00))
+            .cost(BigDecimal.valueOf(0.60))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
 
-    Ingredient savedKetchupSauce =
+    final Ingredient savedKetchupSauce =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 ketchupSauce, getRandomObjects(allergens), allergenService));
 
-    Ingredient mustardSauce =
-        ingredientService.save(
-            Ingredient.builder()
-                .ingredientType(SAUCE)
-                .name("Mustard sauce")
-                .description("Spicy mustard sauce")
-                .imageUrl(SAUCE_IMAGES_PATH + "mustardSauce.jpg")
-                .grammage(10)
-                .calories(BigDecimal.valueOf(15.23))
-                .price(BigDecimal.valueOf(1.00))
-                .cost(BigDecimal.valueOf(0.95))
-                .allergens(new HashSet<>())
-                .burgers(new HashSet<>())
-                .build());
+    final Ingredient mustardSauce =
+        Ingredient.builder()
+            .ingredientType(SAUCE)
+            .name("Mustard sauce")
+            .description("Spicy mustard sauce")
+            .imageUrl(SAUCE_IMAGES_PATH + "mustardSauce.jpg")
+            .grammage(10)
+            .calories(BigDecimal.valueOf(15.23))
+            .price(BigDecimal.valueOf(1.00))
+            .cost(BigDecimal.valueOf(0.95))
+            .allergens(new HashSet<>())
+            .burgers(new HashSet<>())
+            .build();
 
-    Ingredient savedMustardSauce =
+    final Ingredient savedMustardSauce =
         ingredientService.save(
-            getIngredientWithRandomAllergens(
+            enrichIngredientWithRandomAllergens(
                 mustardSauce, getRandomObjects(allergens), allergenService));
 
     return List.of(
@@ -283,24 +274,26 @@ public class IngredientsInitializer extends Initializer {
         savedMustardSauce);
   }
 
-  private static Ingredient getIngredientWithRandomAllergens(
-      final Ingredient savedIngredient,
-      final Set<Allergen> randomAllergens,
+  private static Ingredient enrichIngredientWithRandomAllergens(
+      final Ingredient ingredient,
+      final Set<Allergen> allergens,
       final AllergenService allergenService) {
 
     log.info(
-        String.format(">>>>>>>>>> adding allergens to %s <<<<<<<<<<", savedIngredient.getName()));
+        String.format(
+            ">>>>>>>>>> adding %d allergens to %s <<<<<<<<<<",
+            allergens.size(), ingredient.getName()));
 
-    randomAllergens.stream()
+    allergens.stream()
         .map(a -> allergenService.getById(a.getId()))
         .forEach(
             a -> {
-              savedIngredient.addAllergen(a);
+              ingredient.addAllergen(a);
               log.info(
                   String.format(
-                      "Added %s to %s", a.getAllergenType().type, savedIngredient.getName()));
+                      "Added %s to %s", a.getAllergenType().type, ingredient.getName()));
             });
 
-    return savedIngredient;
+    return ingredient;
   }
 }

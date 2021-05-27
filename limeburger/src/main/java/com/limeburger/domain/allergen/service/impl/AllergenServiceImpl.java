@@ -24,6 +24,7 @@ public class AllergenServiceImpl implements AllergenService {
 
   @Override
   public Allergen getById(final Long id) {
+    log.info(String.format("Fetched allergen with id %d from database", id));
     return allergenRepository.getAllergenById(id);
   }
 

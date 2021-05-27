@@ -24,6 +24,7 @@ public class IngredientServiceImpl implements IngredientService {
 
   @Override
   public Ingredient getById(final Long id) {
+    log.info(String.format("Fetched ingredient with id %d from database", id));
     return ingredientRepository.getIngredientById(id);
   }
 

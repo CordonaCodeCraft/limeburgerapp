@@ -2,17 +2,23 @@ package com.limeburger.bootstrap.initializers;
 
 import com.limeburger.domain.allergen.model.Allergen;
 import com.limeburger.domain.allergen.service.AllergenService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.List;
 
 import static com.limeburger.domain.allergen.model.Allergen.AllergenType.*;
 
+@Slf4j
+@Component
 public class AllergensInitializer extends Initializer {
 
   private static final String ALLERGENS_ICONS_PATH = IMAGES_PATH + "allergens/";
 
   public static List<Allergen> initializeAllergens(final AllergenService allergenService) {
+
+    log.info(">>>>>>>>>> INITIALIZING ALLERGENS... <<<<<<<<< ");
 
     final Allergen crustacean =
         Allergen.builder()
