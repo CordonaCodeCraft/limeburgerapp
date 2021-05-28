@@ -14,11 +14,14 @@ public interface AllergenMapper {
 
   AllergenMapper INSTANCE = Mappers.getMapper(AllergenMapper.class);
 
-  @Named("enumToEnumValue")
-  static String enumToEnumValue(final AllergenType target) {
+  @Mapping(
+      source = "allergenType",
+      target = "name",
+      qualifiedByName = "AllergenEnumToAllergenEnumValue")
+  AllergenCustomerView toAllergenCustomerView(final Allergen allergen);
+
+  @Named("AllergenEnumToAllergenEnumValue")
+  static String convertAllergenEnumToAllergenStringValue(final AllergenType target) {
     return target.type;
   }
-
-  @Mapping(source = "allergenType", target = "name", qualifiedByName = "enumToEnumValue")
-  AllergenCustomerView toAllergenCustomerView(final Allergen allergen);
 }

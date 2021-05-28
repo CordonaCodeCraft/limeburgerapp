@@ -5,7 +5,6 @@ import com.limeburger.bootstrap.initializers.BurgerInitializer;
 import com.limeburger.bootstrap.initializers.IngredientsInitializer;
 import com.limeburger.domain.allergen.model.Allergen;
 import com.limeburger.domain.allergen.service.AllergenService;
-import com.limeburger.domain.burger.model.Burger;
 import com.limeburger.domain.burger.service.BurgerService;
 import com.limeburger.domain.ingredient.model.Ingredient;
 import com.limeburger.domain.ingredient.service.IngredientService;
@@ -32,7 +31,6 @@ public class DataLoader implements ApplicationRunner {
     List<Ingredient> ingredients =
         IngredientsInitializer.initializeIngredients(ingredientService, allergenService, allergens);
 
-    List<Burger> burgers =
-        BurgerInitializer.initializeBurgers(burgerService, ingredientService, ingredients);
+    BurgerInitializer.initializeBurgers(burgerService, ingredientService, ingredients);
   }
 }

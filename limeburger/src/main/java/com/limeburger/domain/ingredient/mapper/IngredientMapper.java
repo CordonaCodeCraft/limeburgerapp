@@ -16,19 +16,19 @@ public interface IngredientMapper extends MapperUtils {
 
   IngredientMapper INSTANCE = Mappers.getMapper(IngredientMapper.class);
 
-  @Named("IngredientEnumToIngredientEnumValue")
-  static String enumToEnumValue(final IngredientType target) {
-    return target.type;
-  }
-
   @Mapping(source = "sellingPrice", target = "cost", qualifiedByName = "decimalToString")
   IngredientCustomerView toIngredientCustomerView(final Ingredient ingredient);
 
   @Mapping(
       source = "ingredientType",
       target = "type",
-      qualifiedByName = "IngredientEnumToIngredientEnumValue")
+      qualifiedByName = "IngredientEnumToIngredientStringValue")
   @Mapping(source = "sellingPrice", target = "sellingPrice", qualifiedByName = "decimalToString")
   @Mapping(source = "purchasePrice", target = "purchasePrice", qualifiedByName = "decimalToString")
   IngredientAdminView toIngredientAdminView(final Ingredient ingredient);
+
+  @Named("IngredientEnumToIngredientStringValue")
+  static String convertIngredientEnumToIngredientStringValue(final IngredientType target) {
+    return target.type;
+  }
 }

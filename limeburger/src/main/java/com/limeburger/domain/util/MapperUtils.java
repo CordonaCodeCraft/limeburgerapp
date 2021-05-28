@@ -33,6 +33,7 @@ public interface MapperUtils {
         getFormattedDecimalString(getIngredientsCostTotal(burger)));
   }
 
+  // todo: investigate why List size is zero
   @AfterMapping
   default void setBurgersContainingIngredient(
       final Ingredient ingredient, @MappingTarget final IngredientAdminView ingredientAdminView) {
@@ -51,12 +52,11 @@ public interface MapperUtils {
       final Burger burger, @MappingTarget final BurgerAdminView burgerAdminView) {
 
     final BigDecimal ingredientsCostTotal = getIngredientsCostTotal(burger);
-
-    final BigDecimal costTotal = ingredientsCostTotal.add(burger.getProductionCost());
-
+    final BigDecimal burgerCostTotal = ingredientsCostTotal.add(burger.getProductionCost());
     final BigDecimal customerPrice = getCustomerPrice(burger);
 
-    burgerAdminView.setProfitExpected(getFormattedDecimalString(customerPrice.subtract(costTotal)));
+    burgerAdminView.setProfitExpected(
+        getFormattedDecimalString(customerPrice.subtract(burgerCostTotal)));
   }
 
   private BigDecimal getIngredientsCostTotal(Burger burger) {
