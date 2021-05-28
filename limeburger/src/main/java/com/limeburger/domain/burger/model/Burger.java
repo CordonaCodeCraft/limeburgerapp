@@ -53,18 +53,22 @@ public class Burger extends BaseEntity {
       joinColumns = @JoinColumn(name = "burger_id"),
       inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
   private Set<Ingredient> ingredients;
+
   @NotNull(message = "Profit coefficient can not be null")
   @DecimalMin(value = "0.10", message = "Profit coefficient can not be lesser than 0.10")
-  @DecimalMax(value = "1.00", message = "Profit coefficient can not be bigger than 1.00")
+  @DecimalMax(value = "3.00", message = "Profit coefficient can not be bigger than 3.00")
   private BigDecimal profitCoefficient;
+
   @NotNull(message = "Promotion value can not be empty")
   private Boolean isInPromotion;
+
   @NotNull(message = "Discount coefficient can not be null")
   @PositiveOrZero
-  @DecimalMax(value = "1.50", message = "Discount coefficient can not be bigger than 1.50")
+  @DecimalMax(value = "0.5", message = "Discount coefficient can not be bigger than 0.5")
   private BigDecimal discountCoefficient;
+
   @NotNull(message = "Production cost can not be null")
-  @DecimalMin(value = "2.00", message = "Product cost can not be lesser than 2.00")
+  @DecimalMin(value = "1.00", message = "Product cost can not be lesser than 1.00")
   @DecimalMax(value = "10.00", message = "Product cost can not be bigger than 10.00")
   private BigDecimal productionCost;
 

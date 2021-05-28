@@ -6,7 +6,7 @@ import com.limeburger.bootstrap.initializers.IngredientsInitializer;
 import com.limeburger.domain.allergen.model.Allergen;
 import com.limeburger.domain.allergen.service.AllergenService;
 import com.limeburger.domain.burger.model.Burger;
-import com.limeburger.domain.burger.repository.service.BurgerService;
+import com.limeburger.domain.burger.service.BurgerService;
 import com.limeburger.domain.ingredient.model.Ingredient;
 import com.limeburger.domain.ingredient.service.IngredientService;
 import lombok.RequiredArgsConstructor;

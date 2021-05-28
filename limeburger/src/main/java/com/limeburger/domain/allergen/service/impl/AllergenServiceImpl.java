@@ -29,6 +29,11 @@ public class AllergenServiceImpl implements AllergenService {
   }
 
   @Override
+  public Allergen getByType(final Allergen.AllergenType type) {
+    return allergenRepository.getAllergenByType(type);
+  }
+
+  @Override
   public List<Allergen> saveAll(final List<Allergen> allergens) {
     allergens.forEach(
         a ->

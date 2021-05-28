@@ -1,8 +1,8 @@
-package com.limeburger.domain.burger.repository.service.impl;
+package com.limeburger.domain.burger.service.impl;
 
 import com.limeburger.domain.burger.model.Burger;
 import com.limeburger.domain.burger.repository.BurgerRepository;
-import com.limeburger.domain.burger.repository.service.BurgerService;
+import com.limeburger.domain.burger.service.BurgerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

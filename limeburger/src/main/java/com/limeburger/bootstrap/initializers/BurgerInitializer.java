@@ -1,7 +1,7 @@
 package com.limeburger.bootstrap.initializers;
 
 import com.limeburger.domain.burger.model.Burger;
-import com.limeburger.domain.burger.repository.service.BurgerService;
+import com.limeburger.domain.burger.service.BurgerService;
 import com.limeburger.domain.ingredient.model.Ingredient;
 import com.limeburger.domain.ingredient.service.IngredientService;
 import lombok.extern.slf4j.Slf4j;
@@ -90,7 +90,7 @@ public class BurgerInitializer extends Initializer {
             .ingredients(new HashSet<>())
             .profitCoefficient(BigDecimal.valueOf(1.00))
             .isInPromotion(true)
-            .discountCoefficient(BigDecimal.valueOf(1.00))
+            .discountCoefficient(BigDecimal.valueOf(0.5))
             .productionCost(BigDecimal.valueOf(5.50))
             .build();
 

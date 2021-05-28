@@ -60,22 +60,22 @@ public class Ingredient extends BaseEntity {
   private Integer grammage;
 
   @NotNull(message = "Calories can not be empty")
-  @Positive(message = "Calories value must be positive real digit")
-  @DecimalMin(value = "1.00", message = "Calories value can not be lesser than 1.00")
-  @DecimalMax(value = "250.00", message = "Calories value can not be bigger than 250.00")
+  @Positive(message = "Calories must be positive real digit")
+  @DecimalMin(value = "1.00", message = "Calories can not be lesser than 1.00")
+  @DecimalMax(value = "250.00", message = "Calories can not be bigger than 250.00")
   private BigDecimal calories;
 
-  @NotNull(message = "Price can not be empty")
-  @Positive(message = "Price value must be positive real digit")
-  @DecimalMin(value = "0.50", message = "Price value can not be lesser than 0.50")
-  @DecimalMax(value = "5.00", message = "Price value can not be bigger than 5.00")
-  private BigDecimal price;
+  @NotNull(message = "Selling price can not be empty")
+  @Positive(message = "Selling price must be positive real digit")
+  @DecimalMin(value = "0.50", message = "Selling price can not be lesser than 0.50")
+  @DecimalMax(value = "5.00", message = "Selling price can not be bigger than 5.00")
+  private BigDecimal sellingPrice;
 
-  @NotNull(message = "Cost can not be empty")
-  @Positive(message = "Cost value must be positive real digit")
-  @DecimalMin(value = "0.50", message = "Cost value can not be lesser than 0.50")
-  @DecimalMax(value = "2.00", message = "Cost value can not be bigger than 5.00")
-  private BigDecimal cost;
+  @NotNull(message = "Purchase price can not be empty")
+  @Positive(message = "Purchase price must be positive real digit")
+  @DecimalMin(value = "0.50", message = "Purchase price can not be lesser than 0.50")
+  @DecimalMax(value = "2.00", message = "Purchase price can not be bigger than 2.00")
+  private BigDecimal purchasePrice;
 
   @ManyToMany(mappedBy = "ingredients")
   private Set<Burger> burgers = new HashSet<>();
@@ -142,9 +142,9 @@ public class Ingredient extends BaseEntity {
         + ", calories="
         + calories
         + ", price="
-        + price
+        + sellingPrice
         + ", cost="
-        + cost
+        + purchasePrice
         + '}';
   }
 
