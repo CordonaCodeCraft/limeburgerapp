@@ -5,10 +5,8 @@ import lombok.Data;
 @Data
 public class AllergenCustomerView {
 
-    private String name;
-    private String description;
-    private String dangerIndex;
-    private String imageUrl;
-
-
+  private String name;
+  private String description;
+  private String dangerIndex;
+  private String imageUrl;
 }

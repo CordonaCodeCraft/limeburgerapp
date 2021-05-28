@@ -7,18 +7,18 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-import static com.limeburger.domain.allergen.model.Allergen.*;
+import static com.limeburger.domain.allergen.model.Allergen.AllergenType;
 
 @Mapper
 public interface AllergenMapper {
 
   AllergenMapper INSTANCE = Mappers.getMapper(AllergenMapper.class);
 
-  @Mapping(source = "allergenType", target = "name", qualifiedByName = "enumToEnumValue")
-  AllergenCustomerView toAllergenCustomerView(Allergen allergen);
-
   @Named("enumToEnumValue")
-  static String enumToEnumValue(AllergenType target) {
+  static String enumToEnumValue(final AllergenType target) {
     return target.type;
   }
+
+  @Mapping(source = "allergenType", target = "name", qualifiedByName = "enumToEnumValue")
+  AllergenCustomerView toAllergenCustomerView(final Allergen allergen);
 }

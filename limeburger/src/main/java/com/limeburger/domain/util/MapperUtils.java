@@ -22,25 +22,39 @@ public interface MapperUtils {
 
   @AfterMapping
   default void setCustomerPrice(
-      Burger burger, @MappingTarget BurgerCustomerView burgerCustomerView) {
+      final Burger burger, @MappingTarget final BurgerCustomerView burgerCustomerView) {
     burgerCustomerView.setPrice(getFormattedDecimalString(getCustomerPrice(burger)));
   }
 
   @AfterMapping
   default void setIngredientsCostTotal(
-      Burger burger, @MappingTarget BurgerAdminView burgerAdminView) {
+      final Burger burger, @MappingTarget final BurgerAdminView burgerAdminView) {
     burgerAdminView.setIngredientsCostTotal(
         getFormattedDecimalString(getIngredientsCostTotal(burger)));
   }
 
   @AfterMapping
-  default void setProfitExpected(Burger burger, @MappingTarget BurgerAdminView burgerAdminView) {
+  default void setBurgersContainingIngredient(
+      final Ingredient ingredient, @MappingTarget final IngredientAdminView ingredientAdminView) {
+
+    final List<String> burgerNames =
+        ingredient.getBurgers().stream()
+            .filter(b -> b.getIngredients().contains(ingredient))
+            .map(Burger::getName)
+            .collect(Collectors.toList());
+
+    ingredientAdminView.setBurgersContainingIngredient(burgerNames);
+  }
+
+  @AfterMapping
+  default void setProfitExpected(
+      final Burger burger, @MappingTarget final BurgerAdminView burgerAdminView) {
 
     final BigDecimal ingredientsCostTotal = getIngredientsCostTotal(burger);
 
     final BigDecimal costTotal = ingredientsCostTotal.add(burger.getProductionCost());
 
-    BigDecimal customerPrice = getCustomerPrice(burger);
+    final BigDecimal customerPrice = getCustomerPrice(burger);
 
     burgerAdminView.setProfitExpected(getFormattedDecimalString(customerPrice.subtract(costTotal)));
   }
@@ -66,17 +80,7 @@ public interface MapperUtils {
         burger.getIsInPromotion()
             ? customerPrice.subtract(customerPrice.multiply(burger.getDiscountCoefficient()))
             : customerPrice;
-    return customerPrice;
-  }
 
-  @AfterMapping
-  default void setBurgersContainingIngredient(
-      Ingredient ingredient, @MappingTarget IngredientAdminView ingredientAdminView) {
-    List<String> burgerNames =
-        ingredient.getBurgers().stream()
-            .filter(b -> b.getIngredients().contains(ingredient))
-            .map(Burger::getName)
-            .collect(Collectors.toList());
-    ingredientAdminView.setBurgersContainingIngredient(burgerNames);
+    return customerPrice;
   }
 }

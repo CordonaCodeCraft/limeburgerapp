@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BurgerService {
 
-    Burger save(Burger burger);
+  Burger save(Burger burger);
 
-    List<Burger> saveAll(List<Burger> burgers);
+  List<Burger> saveAll(List<Burger> burgers);
 }

@@ -25,6 +25,39 @@ public interface BurgerMapper extends MapperUtils {
 
   BurgerMapper INSTANCE = Mappers.getMapper(BurgerMapper.class);
 
+  @Named("BurgerEnumToBurgerEnumValue")
+  static String enumToEnumValue(final BurgerType target) {
+    return target.type;
+  }
+
+  @Named("promotionBooleanToPromotionString")
+  static String convertPromotionBooleanToPromotionString(final Boolean target) {
+    return target ? "Burger is in promotion" : "Burger is not in promotion";
+  }
+
+  @Named("ingredientsToAllergenSet")
+  static Set<AllergenCustomerView> convertIngredientsToAllergenList(final Set<Ingredient> target) {
+    return target.stream()
+        .map(Ingredient::getAllergens)
+        .flatMap(s -> s.stream().map(AllergenMapper.INSTANCE::toAllergenCustomerView))
+        .collect(Collectors.toSet());
+  }
+
+  @Named("ingredientsToCustomerView")
+  static Set<IngredientCustomerView> convertIngredientsToCustomerView(
+      final Set<Ingredient> target) {
+    return target.stream()
+        .map(IngredientMapper.INSTANCE::toIngredientCustomerView)
+        .collect(Collectors.toSet());
+  }
+
+  @Named("ingredientsToAdminView")
+  static Set<IngredientAdminView> convertIngredientsToAdminView(final Set<Ingredient> target) {
+    return target.stream()
+        .map(IngredientMapper.INSTANCE::toIngredientAdminView)
+        .collect(Collectors.toSet());
+  }
+
   @Mapping(source = "burgerType", target = "type", qualifiedByName = "BurgerEnumToBurgerEnumValue")
   @Mapping(
       source = "ingredients",
@@ -49,37 +82,9 @@ public interface BurgerMapper extends MapperUtils {
       source = "discountCoefficient",
       target = "discountCoefficient",
       qualifiedByName = "decimalToString")
-  @Mapping(source = "productionCost", target = "productionCost",qualifiedByName = "decimalToString")
-  BurgerAdminView toBurgerAdminView(Burger burger);
-  @Named("BurgerEnumToBurgerEnumValue")
-  static String enumToEnumValue(BurgerType target) {
-    return target.type;
-  }
-
-  @Named("promotionBooleanToPromotionString")
-  static String convertPromotionBooleanToPromotionString(Boolean target) {
-    return target ? "Burger is in promotion" : "Burger is not in promotion";
-  }
-
-  @Named("ingredientsToAllergenSet")
-  static Set<AllergenCustomerView> convertIngredientsToAllergenList(Set<Ingredient> target) {
-    return target.stream()
-        .map(Ingredient::getAllergens)
-        .flatMap(s -> s.stream().map(AllergenMapper.INSTANCE::toAllergenCustomerView))
-        .collect(Collectors.toSet());
-  }
-
-  @Named("ingredientsToCustomerView")
-  static Set<IngredientCustomerView> convertIngredientsToCustomerView(Set<Ingredient> target) {
-    return target.stream()
-        .map(IngredientMapper.INSTANCE::toIngredientCustomerView)
-        .collect(Collectors.toSet());
-  }
-
-  @Named("ingredientsToAdminView")
-  static Set<IngredientAdminView> convertIngredientsToAdminView(Set<Ingredient> target) {
-    return target.stream()
-        .map(IngredientMapper.INSTANCE::toIngredientAdminView)
-        .collect(Collectors.toSet());
-  }
+  @Mapping(
+      source = "productionCost",
+      target = "productionCost",
+      qualifiedByName = "decimalToString")
+  BurgerAdminView toBurgerAdminView(final Burger burger);
 }

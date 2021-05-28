@@ -30,7 +30,6 @@ public class IngredientsInitializer extends Initializer {
 
     log.info(">>>>>>>>>> INITIALIZING INGREDIENTS... <<<<<<<<< ");
 
-
     final Ingredient chickenMeat =
         Ingredient.builder()
             .ingredientType(MEAT)
@@ -290,8 +289,7 @@ public class IngredientsInitializer extends Initializer {
             a -> {
               ingredient.addAllergen(a);
               log.info(
-                  String.format(
-                      "Added %s to %s", a.getAllergenType().type, ingredient.getName()));
+                  String.format("Added %s to %s", a.getAllergenType().type, ingredient.getName()));
             });
 
     return ingredient;

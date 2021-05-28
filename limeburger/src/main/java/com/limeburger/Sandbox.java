@@ -1,7 +1,6 @@
 package com.limeburger;
 
 import com.limeburger.domain.allergen.model.Allergen;
-import com.limeburger.domain.burger.dto.BurgerAdminView;
 import com.limeburger.domain.burger.dto.BurgerCustomerView;
 import com.limeburger.domain.burger.mapper.BurgerMapper;
 import com.limeburger.domain.burger.model.Burger;

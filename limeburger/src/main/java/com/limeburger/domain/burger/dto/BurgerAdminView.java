@@ -8,12 +8,12 @@ import java.util.Set;
 @Data
 public class BurgerAdminView {
 
-    private String type;
-    private String name;
-    private Set<IngredientAdminView> ingredients;
-    private Boolean isInPromotion;
-    private String discountCoefficient;
-    private String ingredientsCostTotal;
-    private String productionCost;
-    private String profitExpected;
+  private String type;
+  private String name;
+  private Set<IngredientAdminView> ingredients;
+  private Boolean isInPromotion;
+  private String discountCoefficient;
+  private String ingredientsCostTotal;
+  private String productionCost;
+  private String profitExpected;
 }
