@@ -17,11 +17,11 @@ public interface AllergenMapper {
   @Mapping(
       source = "allergenType",
       target = "name",
-      qualifiedByName = "AllergenEnumToAllergenEnumValue")
-  AllergenCustomerView toAllergenCustomerView(final Allergen allergen);
+      qualifiedByName = "AllergenEnumToAllergenStringValue")
+  AllergenCustomerView toAllergenCustomerView(final Allergen source);
 
-  @Named("AllergenEnumToAllergenEnumValue")
-  static String convertAllergenEnumToAllergenStringValue(final AllergenType target) {
-    return target.type;
+  @Named("AllergenEnumToAllergenStringValue")
+  static String convertAllergenEnumToAllergenStringValue(final AllergenType source) {
+    return source.type;
   }
 }

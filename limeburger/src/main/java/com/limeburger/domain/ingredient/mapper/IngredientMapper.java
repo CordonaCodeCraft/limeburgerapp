@@ -17,7 +17,7 @@ public interface IngredientMapper extends MapperService {
   IngredientMapper INSTANCE = Mappers.getMapper(IngredientMapper.class);
 
   @Mapping(source = "sellingPrice", target = "cost", qualifiedByName = "decimalToString")
-  IngredientCustomerView toIngredientCustomerView(final Ingredient ingredient);
+  IngredientCustomerView toIngredientCustomerView(final Ingredient source);
 
   @Mapping(
       source = "ingredientType",
@@ -25,10 +25,10 @@ public interface IngredientMapper extends MapperService {
       qualifiedByName = "IngredientEnumToIngredientStringValue")
   @Mapping(source = "sellingPrice", target = "sellingPrice", qualifiedByName = "decimalToString")
   @Mapping(source = "purchasePrice", target = "purchasePrice", qualifiedByName = "decimalToString")
-  IngredientAdminView toIngredientAdminView(final Ingredient ingredient);
+  IngredientAdminView toIngredientAdminView(final Ingredient source);
 
   @Named("IngredientEnumToIngredientStringValue")
-  static String convertIngredientEnumToIngredientStringValue(final IngredientType target) {
-    return target.type;
+  static String convertIngredientEnumToIngredientStringValue(final IngredientType source) {
+    return source.type;
   }
 }
