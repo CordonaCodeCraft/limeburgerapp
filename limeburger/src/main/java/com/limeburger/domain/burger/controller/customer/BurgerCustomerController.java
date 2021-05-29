@@ -13,10 +13,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,7 +44,7 @@ public class BurgerCustomerController {
 
     final Page<Burger> pagedBurgers = burgerService.findAllBurgers(pageable);
 
-    final List<BurgerCustomerView> collect =
+    final List<BurgerCustomerView> burgersCustomerView =
         pagedBurgers.stream()
             .map(BurgerMapper.INSTANCE::toBurgerCustomerView)
             .collect(Collectors.toList());
@@ -49,7 +52,7 @@ public class BurgerCustomerController {
     log.info("Returning Page of burgers with customer view");
 
     return new BurgerCustomerViewPagedList(
-        collect,
+        burgersCustomerView,
         PageRequest.of(
             pagedBurgers.getPageable().getPageNumber(), pagedBurgers.getPageable().getPageSize()),
         pagedBurgers.getTotalElements());
@@ -59,10 +62,14 @@ public class BurgerCustomerController {
   @ResponseStatus(HttpStatus.OK)
   public BurgerCustomerView getBurgerByName(@RequestParam("name") final String name) {
 
-    log.info("Returning burger with customer view and name, containing " + name);
+    Optional<Burger> burger = burgerService.findByNameLike("%" + name + "%");
 
-    return BurgerMapper.INSTANCE.toBurgerCustomerView(
-        burgerService.findByNameLike("%" + name + "%").get());
+    if (burger.isPresent()) {
+      log.info("Returning burger with customer view and name, containing " + name);
+      return BurgerMapper.INSTANCE.toBurgerCustomerView(burger.get());
+    } else {
+      throw new NoSuchElementException(String.format("Burger containing \"%s\" not found", name));
+    }
   }
 
   @GetMapping("/burgers/random")
@@ -76,13 +83,18 @@ public class BurgerCustomerController {
 
   @PostMapping("/burgers/compose")
   @ResponseStatus(HttpStatus.CREATED)
-  public BurgerCustomerComposed addBurger(@Valid @RequestBody final BurgerCustomerCommand input) {
+  public BurgerCustomerComposed addBurger(
+      @Valid @RequestBody final BurgerCustomerCommand input, final BindingResult bindingResult) {
 
-    log.info(
-        String.format(
-            "Returning \"%s\" burger, composed by customer with %d ingredients",
-            input.getName(), input.getIngredients().size()));
+    if (bindingResult.hasErrors()) {
+      throw new NumberFormatException("Burger not valid");
+    } else {
+      log.info(
+              String.format(
+                      "Returning \"%s\" burger, composed by customer with %d ingredients",
+                      input.getName(), input.getIngredients().size()));
 
-    return BurgerMapper.INSTANCE.toBurgerCustomerComposed(input);
+      return BurgerMapper.INSTANCE.toBurgerCustomerComposed(input);
+    }
   }
 }

@@ -12,10 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,7 +43,7 @@ public class BurgerAdminController {
 
     final Page<Burger> pagedBurgers = burgerService.findAllBurgers(pageable);
 
-    final List<BurgerAdminView> collect =
+    final List<BurgerAdminView> burgersAdminView =
         pagedBurgers.stream()
             .map(BurgerMapper.INSTANCE::toBurgerAdminView)
             .collect(Collectors.toList());
@@ -49,7 +51,7 @@ public class BurgerAdminController {
     log.info("Returning Page of burgers with admin view");
 
     return new BurgerAdminViewPagedList(
-        collect,
+        burgersAdminView,
         PageRequest.of(
             pagedBurgers.getPageable().getPageNumber(), pagedBurgers.getPageable().getPageSize()),
         pagedBurgers.getTotalElements());
@@ -59,38 +61,53 @@ public class BurgerAdminController {
   @ResponseStatus(HttpStatus.OK)
   public BurgerAdminView getBurgerByName(@RequestParam(value = "id") final Long id) {
 
-    log.info(String.format("Returning burger with ID %d", id));
+    Optional<Burger> burger = burgerService.findById(id);
 
-    return BurgerMapper.INSTANCE.toBurgerAdminView(burgerService.findById(id).get());
+    if (burger.isPresent()) {
+      log.info(String.format("Returning burger with ID %d", id));
+      return BurgerMapper.INSTANCE.toBurgerAdminView(burger.get());
+    } else {
+      throw new NoSuchElementException(String.format("Burger with ID %d not found", id));
+    }
   }
 
   @GetMapping("/burgers/name")
   @ResponseStatus(HttpStatus.OK)
   public BurgerAdminView getBurgerByName(@RequestParam(value = "name") final String name) {
 
-    log.info("Returning burger with admin view and name, containing " + name);
+    Optional<Burger> burger = burgerService.findByNameLike("%" + name + "%");
 
-    return BurgerMapper.INSTANCE.toBurgerAdminView(
-        burgerService.findByNameLike("%" + name + "%").get());
+    if (burger.isPresent()) {
+      log.info("Returning burger with admin view and name, containing " + name);
+      return BurgerMapper.INSTANCE.toBurgerAdminView(burger.get());
+    } else {
+      throw new NoSuchElementException(String.format("Burger containing \"%s\" not found", name));
+    }
   }
 
   @PostMapping("/burgers/create")
   @ResponseStatus(HttpStatus.CREATED)
-  public BurgerAdminView addBurger(@Valid @RequestBody final BurgerAdminCommand input) {
+  public BurgerAdminView addBurger(
+      @Valid @RequestBody final BurgerAdminCommand input, final BindingResult bindingResult) {
 
-    final StringBuilder logBuilder = new StringBuilder();
-    logBuilder.append(System.lineSeparator());
-    logBuilder.append("Creating new burger in database:");
-    logBuilder.append(System.lineSeparator());
-    logBuilder.append("Type: ").append(input.getBurgerType());
-    logBuilder.append(System.lineSeparator());
-    logBuilder.append("Name: ").append(input.getName());
-    logBuilder.append(System.lineSeparator());
-    logBuilder.append("Ingredients Count: ").append(input.getIngredients().size());
+    if (bindingResult.hasErrors()) {
+      throw new NumberFormatException("Burger not valid");
+    } else {
 
-    log.info(logBuilder.toString());
+      final StringBuilder logBuilder = new StringBuilder();
+      logBuilder.append(System.lineSeparator());
+      logBuilder.append("Creating new burger in database:");
+      logBuilder.append(System.lineSeparator());
+      logBuilder.append("Type: ").append(input.getBurgerType());
+      logBuilder.append(System.lineSeparator());
+      logBuilder.append("Name: ").append(input.getName());
+      logBuilder.append(System.lineSeparator());
+      logBuilder.append("Ingredients Count: ").append(input.getIngredients().size());
 
-    final Optional<Burger> burger = burgerService.addNewBurger(input);
-    return BurgerMapper.INSTANCE.toBurgerAdminView(burger.get());
+      log.info(logBuilder.toString());
+
+      final Optional<Burger> burger = burgerService.addNewBurger(input);
+      return BurgerMapper.INSTANCE.toBurgerAdminView(burger.get());
+    }
   }
 }
