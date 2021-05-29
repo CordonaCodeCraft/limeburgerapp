@@ -6,10 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
 
   @Query(
       "select i from Ingredient as i left join fetch i.allergens left join fetch i.burgers where i.id = :id")
   Ingredient getIngredientById(@Param("id") Long id);
+
+  Optional<Ingredient> getByName(String name);
 }

@@ -77,6 +77,14 @@ public class Burger extends BaseEntity {
     ingredient.getBurgers().add(this);
   }
 
+  public void addIngredients(Set<Ingredient> ingredients) {
+    ingredients.forEach(
+        i -> {
+          this.getIngredients().add(i);
+          i.getBurgers().add(this);
+        });
+  }
+
   @Override
   public boolean equals(Object other) {
 
