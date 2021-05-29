@@ -27,10 +27,10 @@ public class CustomerBeerController {
   @GetMapping("/")
   @ResponseStatus(HttpStatus.OK)
   public String sayHi() {
-    return "Hello limers";
+    return "Hello lime customer!";
   }
 
-  @GetMapping("/burgers")
+  @GetMapping("/burgers/")
   @ResponseStatus(HttpStatus.OK)
   public BurgerCustomerViewPagedList getAllBurgersAsPage(Pageable pageable) {
 
@@ -48,9 +48,9 @@ public class CustomerBeerController {
         pagedBurgers.getTotalElements());
   }
 
-  @GetMapping("/burgers/{name}")
+  @GetMapping("/burgers/name/")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerCustomerView getBurgerByName(@PathVariable String name) {
+  public BurgerCustomerView getBurgerByName(@RequestParam("name") String name) {
     return BurgerMapper.INSTANCE.toBurgerCustomerView(
         burgerService.findByNameLike("%" + name + "%").get());
   }

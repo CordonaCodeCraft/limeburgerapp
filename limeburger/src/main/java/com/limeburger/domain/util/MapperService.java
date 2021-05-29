@@ -10,10 +10,8 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.stream.Collectors;
 
-public interface MapperUtils {
+public interface MapperService {
 
   @Named("decimalToString")
   static String getFormattedDecimalString(BigDecimal target) {
@@ -24,6 +22,16 @@ public interface MapperUtils {
   default void setCustomerPrice(
       final Burger burger, @MappingTarget final BurgerCustomerView burgerCustomerView) {
     burgerCustomerView.setPrice(getFormattedDecimalString(getCustomerPrice(burger)));
+  }
+
+  @AfterMapping
+  default void setBurgerGrammage(
+      final Burger burger, @MappingTarget final BurgerCustomerView burgerCustomerView) {
+
+    Integer grammageTotal =
+        burger.getIngredients().stream().map(Ingredient::getGrammage).reduce(0, Integer::sum);
+
+    burgerCustomerView.setGrammage(String.valueOf(grammageTotal));
   }
 
   @AfterMapping
@@ -38,13 +46,13 @@ public interface MapperUtils {
   default void setBurgersContainingIngredient(
       final Ingredient ingredient, @MappingTarget final IngredientAdminView ingredientAdminView) {
 
-    final List<String> burgerNames =
-        ingredient.getBurgers().stream()
-            .filter(b -> b.getIngredients().contains(ingredient))
-            .map(Burger::getName)
-            .collect(Collectors.toList());
+    //    final List<String> burgerNames =
+    //        ingredient.getBurgers().stream()
+    //            .filter(b -> b.getIngredients().contains(ingredient))
+    //            .map(Burger::getName)
+    //            .collect(Collectors.toList());
 
-    ingredientAdminView.setBurgersContainingIngredient(burgerNames);
+    ingredientAdminView.setBurgersContainingIngredient(null);
   }
 
   @AfterMapping

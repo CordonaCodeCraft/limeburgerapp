@@ -16,5 +16,6 @@ public class BurgerCustomerView {
   private Set<IngredientCustomerView> ingredients;
   private Set<AllergenCustomerView> allergens;
   private String isInPromotion;
+  private String grammage;
   private String price;
 }

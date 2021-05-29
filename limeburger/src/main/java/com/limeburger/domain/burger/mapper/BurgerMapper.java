@@ -9,7 +9,7 @@ import com.limeburger.domain.ingredient.dto.IngredientAdminView;
 import com.limeburger.domain.ingredient.dto.IngredientCustomerView;
 import com.limeburger.domain.ingredient.mapper.IngredientMapper;
 import com.limeburger.domain.ingredient.model.Ingredient;
-import com.limeburger.domain.util.MapperUtils;
+import com.limeburger.domain.util.MapperService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import static com.limeburger.domain.burger.model.Burger.BurgerType;
 
 @Mapper
-public interface BurgerMapper extends MapperUtils {
+public interface BurgerMapper extends MapperService {
 
   BurgerMapper INSTANCE = Mappers.getMapper(BurgerMapper.class);
 
