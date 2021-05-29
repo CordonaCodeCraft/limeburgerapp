@@ -1,7 +1,7 @@
 package com.limeburger.domain.util;
 
-import com.limeburger.domain.burger.dto.BurgerAdminView;
-import com.limeburger.domain.burger.dto.BurgerCustomerView;
+import com.limeburger.domain.burger.dto.admin.BurgerAdminView;
+import com.limeburger.domain.burger.dto.customer.BurgerCustomerView;
 import com.limeburger.domain.burger.model.Burger;
 import com.limeburger.domain.ingredient.dto.IngredientAdminView;
 import com.limeburger.domain.ingredient.model.Ingredient;

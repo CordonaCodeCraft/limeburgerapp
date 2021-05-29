@@ -2,8 +2,8 @@ package com.limeburger.domain.burger.mapper;
 
 import com.limeburger.domain.allergen.dto.AllergenCustomerView;
 import com.limeburger.domain.allergen.mapper.AllergenMapper;
-import com.limeburger.domain.burger.dto.BurgerAdminView;
-import com.limeburger.domain.burger.dto.BurgerCustomerView;
+import com.limeburger.domain.burger.dto.admin.BurgerAdminView;
+import com.limeburger.domain.burger.dto.customer.BurgerCustomerView;
 import com.limeburger.domain.burger.model.Burger;
 import com.limeburger.domain.ingredient.dto.IngredientAdminView;
 import com.limeburger.domain.ingredient.dto.IngredientCustomerView;

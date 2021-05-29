@@ -1,4 +1,4 @@
-package com.limeburger.domain.burger.dto;
+package com.limeburger.domain.burger.dto.admin;
 
 import com.limeburger.domain.ingredient.dto.IngredientAdminView;
 import lombok.Data;

@@ -1,13 +1,17 @@
 package com.limeburger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.limeburger.domain.allergen.model.Allergen;
-import com.limeburger.domain.burger.dto.BurgerCustomerView;
+import com.limeburger.domain.burger.dto.admin.BurgerAdminCommand;
+import com.limeburger.domain.burger.dto.customer.BurgerCustomerView;
 import com.limeburger.domain.burger.mapper.BurgerMapper;
 import com.limeburger.domain.burger.model.Burger;
 import com.limeburger.domain.ingredient.model.Ingredient;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static com.limeburger.domain.allergen.model.Allergen.AllergenType.*;
@@ -18,7 +22,26 @@ import static com.limeburger.domain.ingredient.model.Ingredient.builder;
 
 public class Sandbox {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws JsonProcessingException {
+
+    BurgerAdminCommand burgerAdminCommand =
+        BurgerAdminCommand.builder()
+            .burgerType(MEAT)
+            .name("Uber new burger")
+            .description("This is uber new burger for limers")
+            .imageUrl(
+                "https://media-cldnry.s-nbcnews.com/image/upload/newscms/2019_21/2870431/190524-classic-american-cheeseburger-ew-207p-2870431.jpg")
+            .ingredients(List.of("Chicken meat", "White bread", "Onion salad", "Barbeque sauce"))
+            .profitCoefficient(BigDecimal.valueOf(2.00))
+            .isInPromotion(false)
+            .discountCoefficient(BigDecimal.valueOf(0.5))
+            .productionCost(BigDecimal.valueOf(1.00))
+            .build();
+
+    ObjectMapper mapper = new ObjectMapper();
+    String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(burgerAdminCommand);
+
+    System.out.println(jsonString);
 
     final Allergen crustacean =
         Allergen.builder()

@@ -1,7 +1,7 @@
-package com.limeburger.domain.burger.controller;
+package com.limeburger.domain.burger.controller.customer;
 
-import com.limeburger.domain.burger.dto.BurgerCustomerView;
-import com.limeburger.domain.burger.dto.BurgerCustomerViewPagedList;
+import com.limeburger.domain.burger.dto.customer.BurgerCustomerView;
+import com.limeburger.domain.burger.dto.customer.BurgerCustomerViewPagedList;
 import com.limeburger.domain.burger.mapper.BurgerMapper;
 import com.limeburger.domain.burger.model.Burger;
 import com.limeburger.domain.burger.service.BurgerService;

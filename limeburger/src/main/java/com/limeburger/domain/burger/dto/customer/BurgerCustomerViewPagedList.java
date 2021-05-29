@@ -1,4 +1,4 @@
-package com.limeburger.domain.burger.dto;
+package com.limeburger.domain.burger.dto.customer;
 
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.limeburger.domain.burger.dto;
+package com.limeburger.domain.burger.dto.customer;
 
 import com.limeburger.domain.allergen.dto.AllergenCustomerView;
 import com.limeburger.domain.ingredient.dto.IngredientCustomerView;

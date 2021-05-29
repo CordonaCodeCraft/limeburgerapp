@@ -1,4 +1,4 @@
-package com.limeburger.domain.burger.controller;
+package com.limeburger.domain.burger.controller.admin;
 
 import com.limeburger.domain.burger.dto.admin.BurgerAdminCommand;
 import com.limeburger.domain.burger.dto.admin.BurgerAdminView;
