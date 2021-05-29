@@ -7,6 +7,7 @@ import com.limeburger.domain.burger.mapper.BurgerMapper;
 import com.limeburger.domain.burger.model.Burger;
 import com.limeburger.domain.burger.service.BurgerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(BurgerAdminController.BASE_URL)
 @RequiredArgsConstructor
+@Slf4j
 public class BurgerAdminController {
 
   public static final String BASE_URL = "/api/v1/admin";
@@ -44,6 +46,8 @@ public class BurgerAdminController {
             .map(BurgerMapper.INSTANCE::toBurgerAdminView)
             .collect(Collectors.toList());
 
+    log.info("Returning Page of burgers with admin view");
+
     return new BurgerAdminViewPagedList(
         collect,
         PageRequest.of(
@@ -54,19 +58,38 @@ public class BurgerAdminController {
   @GetMapping("/burgers/id")
   @ResponseStatus(HttpStatus.OK)
   public BurgerAdminView getBurgerByName(@RequestParam(value = "id") final Long id) {
+
+    log.info(String.format("Returning burger with ID %d", id));
+
     return BurgerMapper.INSTANCE.toBurgerAdminView(burgerService.findById(id).get());
   }
 
   @GetMapping("/burgers/name")
   @ResponseStatus(HttpStatus.OK)
   public BurgerAdminView getBurgerByName(@RequestParam(value = "name") final String name) {
+
+    log.info("Returning burger with admin view and name, containing " + name);
+
     return BurgerMapper.INSTANCE.toBurgerAdminView(
         burgerService.findByNameLike("%" + name + "%").get());
   }
 
-  @PostMapping("/burgers/add")
+  @PostMapping("/burgers/create")
   @ResponseStatus(HttpStatus.CREATED)
   public BurgerAdminView addBurger(@Valid @RequestBody final BurgerAdminCommand input) {
+
+    final StringBuilder logBuilder = new StringBuilder();
+    logBuilder.append(System.lineSeparator());
+    logBuilder.append("Creating new burger in database:");
+    logBuilder.append(System.lineSeparator());
+    logBuilder.append("Type: ").append(input.getBurgerType());
+    logBuilder.append(System.lineSeparator());
+    logBuilder.append("Name: ").append(input.getName());
+    logBuilder.append(System.lineSeparator());
+    logBuilder.append("Ingredients Count: ").append(input.getIngredients().size());
+
+    log.info(logBuilder.toString());
+
     final Optional<Burger> burger = burgerService.addNewBurger(input);
     return BurgerMapper.INSTANCE.toBurgerAdminView(burger.get());
   }

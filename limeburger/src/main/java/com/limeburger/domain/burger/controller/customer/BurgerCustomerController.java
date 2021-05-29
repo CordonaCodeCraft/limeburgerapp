@@ -8,6 +8,7 @@ import com.limeburger.domain.burger.mapper.BurgerMapper;
 import com.limeburger.domain.burger.model.Burger;
 import com.limeburger.domain.burger.service.BurgerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(BurgerCustomerController.BASE_URL)
 @RequiredArgsConstructor
+@Slf4j
 public class BurgerCustomerController {
 
   public static final String BASE_URL = "/api/v1/customer";
@@ -44,6 +46,8 @@ public class BurgerCustomerController {
             .map(BurgerMapper.INSTANCE::toBurgerCustomerView)
             .collect(Collectors.toList());
 
+    log.info("Returning Page of burgers with customer view");
+
     return new BurgerCustomerViewPagedList(
         collect,
         PageRequest.of(
@@ -54,6 +58,9 @@ public class BurgerCustomerController {
   @GetMapping("/burgers/name")
   @ResponseStatus(HttpStatus.OK)
   public BurgerCustomerView getBurgerByName(@RequestParam("name") final String name) {
+
+    log.info("Returning burger with customer view and name, containing " + name);
+
     return BurgerMapper.INSTANCE.toBurgerCustomerView(
         burgerService.findByNameLike("%" + name + "%").get());
   }
@@ -61,12 +68,21 @@ public class BurgerCustomerController {
   @GetMapping("/burgers/random")
   @ResponseStatus(HttpStatus.OK)
   public BurgerCustomerView getRandomBurger() {
+
+    log.info("Returning random burger");
+
     return BurgerMapper.INSTANCE.toBurgerCustomerView(burgerService.getRandomBurger());
   }
 
   @PostMapping("/burgers/compose")
   @ResponseStatus(HttpStatus.CREATED)
   public BurgerCustomerComposed addBurger(@Valid @RequestBody final BurgerCustomerCommand input) {
+
+    log.info(
+        String.format(
+            "Returning \"%s\" burger, composed by customer with %d ingredients",
+            input.getName(), input.getIngredients().size()));
+
     return BurgerMapper.INSTANCE.toBurgerCustomerComposed(input);
   }
 }
