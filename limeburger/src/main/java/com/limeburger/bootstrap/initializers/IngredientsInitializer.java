@@ -3,6 +3,7 @@ package com.limeburger.bootstrap.initializers;
 import com.limeburger.domain.allergen.model.Allergen;
 import com.limeburger.domain.allergen.service.AllergenService;
 import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.ingredient.repository.IngredientsLookupTable;
 import com.limeburger.domain.ingredient.service.IngredientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -258,19 +259,24 @@ public class IngredientsInitializer extends Initializer {
             enrichIngredientWithRandomAllergens(
                 mustardSauce, getRandomObjects(allergens), allergenService));
 
-    return List.of(
-        savedChickenMeat,
-        savedPorkMeat,
-        savedFishMeat,
-        savedWhiteBread,
-        savedBrownBread,
-        savedSesameBread,
-        savedGreenSalad,
-        savedOnionSalad,
-        savedRussianSalad,
-        savedBarbequeSauce,
-        savedKetchupSauce,
-        savedMustardSauce);
+    List<Ingredient> ingredients =
+        List.of(
+            savedChickenMeat,
+            savedPorkMeat,
+            savedFishMeat,
+            savedWhiteBread,
+            savedBrownBread,
+            savedSesameBread,
+            savedGreenSalad,
+            savedOnionSalad,
+            savedRussianSalad,
+            savedBarbequeSauce,
+            savedKetchupSauce,
+            savedMustardSauce);
+
+    IngredientsLookupTable.initializeWith(ingredients);
+
+    return ingredients;
   }
 
   private static Ingredient enrichIngredientWithRandomAllergens(

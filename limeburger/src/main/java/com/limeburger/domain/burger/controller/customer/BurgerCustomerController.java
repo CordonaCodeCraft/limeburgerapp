@@ -1,5 +1,7 @@
 package com.limeburger.domain.burger.controller.customer;
 
+import com.limeburger.domain.burger.dto.customer.BurgerCustomerCommand;
+import com.limeburger.domain.burger.dto.customer.BurgerCustomerComposed;
 import com.limeburger.domain.burger.dto.customer.BurgerCustomerView;
 import com.limeburger.domain.burger.dto.customer.BurgerCustomerViewPagedList;
 import com.limeburger.domain.burger.mapper.BurgerMapper;
@@ -12,13 +14,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(CustomerBeerController.BASE_URL)
+@RequestMapping(BurgerCustomerController.BASE_URL)
 @RequiredArgsConstructor
-public class CustomerBeerController {
+public class BurgerCustomerController {
 
   public static final String BASE_URL = "/api/v1/customer";
 
@@ -30,7 +33,7 @@ public class CustomerBeerController {
     return "Hello lime customer!";
   }
 
-  @GetMapping("/burgers/")
+  @GetMapping("/burgers")
   @ResponseStatus(HttpStatus.OK)
   public BurgerCustomerViewPagedList getAllBurgersAsPage(Pageable pageable) {
 
@@ -48,7 +51,7 @@ public class CustomerBeerController {
         pagedBurgers.getTotalElements());
   }
 
-  @GetMapping("/burgers/name/")
+  @GetMapping("/burgers/name")
   @ResponseStatus(HttpStatus.OK)
   public BurgerCustomerView getBurgerByName(@RequestParam("name") String name) {
     return BurgerMapper.INSTANCE.toBurgerCustomerView(
@@ -60,4 +63,11 @@ public class CustomerBeerController {
   public BurgerCustomerView getRandomBurger() {
     return BurgerMapper.INSTANCE.toBurgerCustomerView(burgerService.getRandomBurger());
   }
+
+  @PostMapping("/burgers/compose")
+  @ResponseStatus(HttpStatus.CREATED)
+  public BurgerCustomerComposed addBurger(@Valid @RequestBody BurgerCustomerCommand input) {
+    return BurgerMapper.INSTANCE.toBurgerCustomerComposed(input);
+  }
+
 }
