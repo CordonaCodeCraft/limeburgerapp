@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 public interface MapperService {
 
   @Named("decimalToString")
-  static String getFormattedDecimalString(BigDecimal target) {
+  static String getFormattedDecimalString(final BigDecimal target) {
     return String.valueOf(target.doubleValue());
   }
 
@@ -31,7 +31,7 @@ public interface MapperService {
   default void setBurgerCustomerViewGrammage(
       final Burger source, @MappingTarget final BurgerCustomerView target) {
 
-    Integer grammageTotal =
+    final Integer grammageTotal =
         source.getIngredients().stream().map(Ingredient::getGrammage).reduce(0, Integer::sum);
 
     target.setGrammage(String.valueOf(grammageTotal));
@@ -41,7 +41,7 @@ public interface MapperService {
   default void setBurgerCustomerComposedPrice(
       final BurgerCustomerCommand source, @MappingTarget final BurgerCustomerComposed target) {
 
-    BigDecimal price =
+    final BigDecimal price =
         source.getIngredients().stream()
             .map(i -> IngredientsLookupTable.getTable().get(i))
             .map(Ingredient::getSellingPrice)
@@ -54,7 +54,7 @@ public interface MapperService {
   default void setBurgerCustomerComposedGrammage(
       final BurgerCustomerCommand source, @MappingTarget final BurgerCustomerComposed target) {
 
-    Integer grammageTotal =
+    final Integer grammageTotal =
         source.getIngredients().stream()
             .map(i -> IngredientsLookupTable.getTable().get(i))
             .map(Ingredient::getGrammage)

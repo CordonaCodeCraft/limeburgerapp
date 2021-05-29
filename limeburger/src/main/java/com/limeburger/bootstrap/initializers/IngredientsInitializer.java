@@ -259,7 +259,7 @@ public class IngredientsInitializer extends Initializer {
             enrichIngredientWithRandomAllergens(
                 mustardSauce, getRandomObjects(allergens), allergenService));
 
-    List<Ingredient> ingredients =
+    final List<Ingredient> ingredients =
         List.of(
             savedChickenMeat,
             savedPorkMeat,

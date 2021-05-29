@@ -21,13 +21,13 @@ public class BurgerInitializer extends Initializer {
   private static final String BURGER_IMAGES_PATH = IMAGES_PATH + "burgers/";
 
   public static List<Burger> initializeBurgers(
-      BurgerService burgerService,
-      IngredientService ingredientService,
-      List<Ingredient> ingredients) {
+      final BurgerService burgerService,
+      final IngredientService ingredientService,
+      final List<Ingredient> ingredients) {
 
     log.info(">>>>>>>>>> INITIALIZING BURGERS... <<<<<<<<< ");
 
-    Burger limeBurger =
+    final Burger limeBurger =
         Burger.builder()
             .burgerType(MEAT)
             .name("Lime burger")
@@ -40,12 +40,12 @@ public class BurgerInitializer extends Initializer {
             .productionCost(BigDecimal.valueOf(2.00))
             .build();
 
-    Burger savedLimeBurger =
+    final Burger savedLimeBurger =
         burgerService.save(
             enrichBurgerWithRandomIngredients(
                 limeBurger, getRandomObjects(ingredients), ingredientService));
 
-    Burger hederaBurger =
+    final Burger hederaBurger =
         Burger.builder()
             .burgerType(MEAT)
             .name("Hedera burger")
@@ -58,12 +58,12 @@ public class BurgerInitializer extends Initializer {
             .productionCost(BigDecimal.valueOf(2.50))
             .build();
 
-    Burger savedHederaBurger =
+    final Burger savedHederaBurger =
         burgerService.save(
             enrichBurgerWithRandomIngredients(
                 hederaBurger, getRandomObjects(ingredients), ingredientService));
 
-    Burger hyperLedgerBurger =
+    final Burger hyperLedgerBurger =
         Burger.builder()
             .burgerType(MEAT)
             .name("Hyper Ledger burger")
@@ -76,12 +76,12 @@ public class BurgerInitializer extends Initializer {
             .productionCost(BigDecimal.valueOf(3.50))
             .build();
 
-    Burger savedHyperLedgerBurger =
+    final Burger savedHyperLedgerBurger =
         burgerService.save(
             enrichBurgerWithRandomIngredients(
                 hyperLedgerBurger, getRandomObjects(ingredients), ingredientService));
 
-    Burger idoneusBurger =
+    final Burger idoneusBurger =
         Burger.builder()
             .burgerType(VEGAN)
             .name("Idoneus burger")
@@ -94,12 +94,12 @@ public class BurgerInitializer extends Initializer {
             .productionCost(BigDecimal.valueOf(5.50))
             .build();
 
-    Burger savedIdoneusBurger =
+    final Burger savedIdoneusBurger =
         burgerService.save(
             enrichBurgerWithRandomIngredients(
                 idoneusBurger, getRandomObjects(ingredients), ingredientService));
 
-    Burger raiffeisenBurger =
+    final Burger raiffeisenBurger =
         Burger.builder()
             .burgerType(VEGETARIAN)
             .name("Raiffeisen burger")
@@ -112,7 +112,7 @@ public class BurgerInitializer extends Initializer {
             .productionCost(BigDecimal.valueOf(10.00))
             .build();
 
-    Burger savedRaiffeisenBurger =
+    final Burger savedRaiffeisenBurger =
         burgerService.save(
             enrichBurgerWithRandomIngredients(
                 raiffeisenBurger, getRandomObjects(ingredients), ingredientService));

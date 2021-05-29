@@ -13,7 +13,7 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
 
   @Query(
       "select i from Ingredient as i left join fetch i.allergens left join fetch i.burgers where i.id = :id")
-  Ingredient getIngredientById(@Param("id") Long id);
+  Ingredient getIngredientById(@Param("id") final Long id);
 
-  Optional<Ingredient> getByName(String name);
+  Optional<Ingredient> getByName(final String name);
 }

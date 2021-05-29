@@ -14,7 +14,7 @@ public abstract class IngredientsLookupTable {
 
   private static final Map<String, Ingredient> ingredientsTable = new HashMap<>();
 
-  public static void initializeWith(List<Ingredient> ingredients) {
+  public static void initializeWith(final List<Ingredient> ingredients) {
     ingredients.forEach(i -> ingredientsTable.putIfAbsent(i.getName(), i));
     log.info(
         String.format(

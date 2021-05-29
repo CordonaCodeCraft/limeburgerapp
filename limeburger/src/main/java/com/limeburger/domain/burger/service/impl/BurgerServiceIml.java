@@ -32,9 +32,9 @@ public class BurgerServiceIml implements BurgerService {
   @Override
   public Optional<Burger> addNewBurger(final BurgerAdminCommand source) {
 
-    Set<Ingredient> ingredients = getIngredients(source);
+    final Set<Ingredient> ingredients = getIngredients(source);
 
-    Burger newBurger =
+    final Burger newBurger =
         Burger.builder()
             .burgerType(source.getBurgerType())
             .name(source.getName())
@@ -49,7 +49,7 @@ public class BurgerServiceIml implements BurgerService {
 
     newBurger.addIngredients(ingredients);
 
-    Burger saved = burgerRepository.save(newBurger);
+    final Burger saved = burgerRepository.save(newBurger);
 
     log.info(String.format("Created new \"%s\" burger in database", newBurger.getName()));
 

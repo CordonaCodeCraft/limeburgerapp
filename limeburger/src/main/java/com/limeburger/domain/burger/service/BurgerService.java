@@ -10,19 +10,19 @@ import java.util.Optional;
 
 public interface BurgerService {
 
-  Burger save(Burger burger);
+  Burger save(final Burger burger);
 
-  Optional<Burger> addNewBurger(BurgerAdminCommand source);
+  Optional<Burger> addNewBurger(final BurgerAdminCommand source);
 
-  Page<Burger> findAllBurgers(Pageable pageable);
+  Page<Burger> findAllBurgers(final Pageable pageable);
 
-  Optional<Burger> findById(Long id);
+  Optional<Burger> findById(final Long id);
 
-  Optional<Burger> findByName(String name);
+  Optional<Burger> findByName(final String name);
 
-  Optional<Burger> findByNameLike(String name);
+  Optional<Burger> findByNameLike(final String name);
 
-  List<Burger> saveAll(List<Burger> burgers);
+  List<Burger> saveAll(final List<Burger> burgers);
 
   Burger getRandomBurger();
 }

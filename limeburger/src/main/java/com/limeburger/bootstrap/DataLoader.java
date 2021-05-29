@@ -26,9 +26,9 @@ public class DataLoader implements ApplicationRunner {
   @Override
   public void run(final ApplicationArguments args) {
 
-    List<Allergen> allergens = AllergensInitializer.initializeAllergens(allergenService);
+    final List<Allergen> allergens = AllergensInitializer.initializeAllergens(allergenService);
 
-    List<Ingredient> ingredients =
+    final List<Ingredient> ingredients =
         IngredientsInitializer.initializeIngredients(ingredientService, allergenService, allergens);
 
     BurgerInitializer.initializeBurgers(burgerService, ingredientService, ingredients);

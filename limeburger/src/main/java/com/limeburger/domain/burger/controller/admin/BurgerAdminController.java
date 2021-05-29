@@ -35,11 +35,11 @@ public class BurgerAdminController {
 
   @GetMapping("/burgers")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerAdminViewPagedList getAllBurgersAsPage(Pageable pageable) {
+  public BurgerAdminViewPagedList getAllBurgersAsPage(final Pageable pageable) {
 
-    Page<Burger> pagedBurgers = burgerService.findAllBurgers(pageable);
+    final Page<Burger> pagedBurgers = burgerService.findAllBurgers(pageable);
 
-    List<BurgerAdminView> collect =
+    final List<BurgerAdminView> collect =
         pagedBurgers.stream()
             .map(BurgerMapper.INSTANCE::toBurgerAdminView)
             .collect(Collectors.toList());
@@ -53,21 +53,21 @@ public class BurgerAdminController {
 
   @GetMapping("/burgers/id")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerAdminView getBurgerByName(@RequestParam(value = "id") Long id) {
+  public BurgerAdminView getBurgerByName(@RequestParam(value = "id") final Long id) {
     return BurgerMapper.INSTANCE.toBurgerAdminView(burgerService.findById(id).get());
   }
 
   @GetMapping("/burgers/name")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerAdminView getBurgerByName(@RequestParam(value = "name") String name) {
+  public BurgerAdminView getBurgerByName(@RequestParam(value = "name") final String name) {
     return BurgerMapper.INSTANCE.toBurgerAdminView(
         burgerService.findByNameLike("%" + name + "%").get());
   }
 
   @PostMapping("/burgers/add")
   @ResponseStatus(HttpStatus.CREATED)
-  public BurgerAdminView addBurger(@Valid @RequestBody BurgerAdminCommand input) {
-    Optional<Burger> burger = burgerService.addNewBurger(input);
+  public BurgerAdminView addBurger(@Valid @RequestBody final BurgerAdminCommand input) {
+    final Optional<Burger> burger = burgerService.addNewBurger(input);
     return BurgerMapper.INSTANCE.toBurgerAdminView(burger.get());
   }
 }

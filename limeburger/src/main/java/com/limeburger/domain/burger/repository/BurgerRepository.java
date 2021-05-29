@@ -16,18 +16,18 @@ public interface BurgerRepository extends JpaRepository<Burger, Long> {
 
   @Query(
       "select b from Burger as b left join fetch b.ingredients as i left join fetch i.allergens where b.id = :id")
-  Optional<Burger> findBurgerById(@Param("id") Long id);
+  Optional<Burger> findBurgerById(@Param("id") final Long id);
 
   @Query(
       "select b from Burger as b left join fetch b.ingredients as i left join fetch i.allergens where b.name like :name")
-  Optional<Burger> findBurgerByName(@Param("name") String name);
+  Optional<Burger> findBurgerByName(@Param("name") final String name);
 
   @Query(
       "select b from Burger as b left join fetch b.ingredients as i left join fetch i.allergens where b.name like :name")
-  Optional<Burger> findBurgerByNameLike(@Param("name") String name);
+  Optional<Burger> findBurgerByNameLike(@Param("name") final String name);
 
   @Query("select b from Burger as b order by b.id asc")
-  Page<Burger> findAllBurgers(Pageable pageable);
+  Page<Burger> findAllBurgers(final Pageable pageable);
 
   @Query("select b.id from Burger as b")
   List<Long> getAllIds();

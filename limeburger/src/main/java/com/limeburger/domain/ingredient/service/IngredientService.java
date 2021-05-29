@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface IngredientService {
 
-  Ingredient save(Ingredient ingredient);
+  Ingredient save(final Ingredient ingredient);
 
-  Ingredient getById(Long id);
+  Ingredient getById(final Long id);
 
-  Optional<Ingredient> getByName(String name);
+  Optional<Ingredient> getByName(final String name);
 
-  List<Ingredient> saveAll(List<Ingredient> ingredients);
+  List<Ingredient> saveAll(final List<Ingredient> ingredients);
 }

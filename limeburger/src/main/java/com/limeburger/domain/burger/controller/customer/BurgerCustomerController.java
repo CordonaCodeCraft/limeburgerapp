@@ -35,11 +35,11 @@ public class BurgerCustomerController {
 
   @GetMapping("/burgers")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerCustomerViewPagedList getAllBurgersAsPage(Pageable pageable) {
+  public BurgerCustomerViewPagedList getAllBurgersAsPage(final Pageable pageable) {
 
-    Page<Burger> pagedBurgers = burgerService.findAllBurgers(pageable);
+    final Page<Burger> pagedBurgers = burgerService.findAllBurgers(pageable);
 
-    List<BurgerCustomerView> collect =
+    final List<BurgerCustomerView> collect =
         pagedBurgers.stream()
             .map(BurgerMapper.INSTANCE::toBurgerCustomerView)
             .collect(Collectors.toList());
@@ -53,7 +53,7 @@ public class BurgerCustomerController {
 
   @GetMapping("/burgers/name")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerCustomerView getBurgerByName(@RequestParam("name") String name) {
+  public BurgerCustomerView getBurgerByName(@RequestParam("name") final String name) {
     return BurgerMapper.INSTANCE.toBurgerCustomerView(
         burgerService.findByNameLike("%" + name + "%").get());
   }
@@ -66,7 +66,7 @@ public class BurgerCustomerController {
 
   @PostMapping("/burgers/compose")
   @ResponseStatus(HttpStatus.CREATED)
-  public BurgerCustomerComposed addBurger(@Valid @RequestBody BurgerCustomerCommand input) {
+  public BurgerCustomerComposed addBurger(@Valid @RequestBody final BurgerCustomerCommand input) {
     return BurgerMapper.INSTANCE.toBurgerCustomerComposed(input);
   }
 }

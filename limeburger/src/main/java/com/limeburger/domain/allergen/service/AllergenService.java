@@ -8,11 +8,11 @@ import static com.limeburger.domain.allergen.model.Allergen.AllergenType;
 
 public interface AllergenService {
 
-  Allergen save(Allergen allergen);
+  Allergen save(final Allergen allergen);
 
-  Allergen getById(Long id);
+  Allergen getById(final Long id);
 
-  Allergen getByType(AllergenType type);
+  Allergen getByType(final AllergenType type);
 
-  List<Allergen> saveAll(List<Allergen> allergens);
+  List<Allergen> saveAll(final List<Allergen> allergens);
 }

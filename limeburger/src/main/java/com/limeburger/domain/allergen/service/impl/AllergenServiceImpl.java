@@ -17,7 +17,7 @@ public class AllergenServiceImpl implements AllergenService {
   private final AllergenRepository allergenRepository;
 
   @Override
-  public Allergen save(Allergen allergen) {
+  public Allergen save(final Allergen allergen) {
     log.info(String.format("Saved \"%s\" allergen in database", allergen.getAllergenType().type));
     return allergenRepository.save(allergen);
   }
