@@ -39,13 +39,13 @@ public interface MapperService {
 
   @AfterMapping
   default void setBurgerCustomerComposedPrice(
-          final BurgerCustomerCommand source, @MappingTarget final BurgerCustomerComposed target) {
+      final BurgerCustomerCommand source, @MappingTarget final BurgerCustomerComposed target) {
 
     BigDecimal price =
-            source.getIngredients().stream()
-                    .map(i -> IngredientsLookupTable.getTable().get(i))
-                    .map(Ingredient::getSellingPrice)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+        source.getIngredients().stream()
+            .map(i -> IngredientsLookupTable.getTable().get(i))
+            .map(Ingredient::getSellingPrice)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
 
     target.setPrice(String.valueOf(price));
   }
@@ -84,7 +84,8 @@ public interface MapperService {
   }
 
   @AfterMapping
-  default void setBurgerAdminViewProfitExpected(final Burger source, @MappingTarget final BurgerAdminView target) {
+  default void setBurgerAdminViewProfitExpected(
+      final Burger source, @MappingTarget final BurgerAdminView target) {
 
     final BigDecimal ingredientsCostTotal = getIngredientsCostTotal(source);
     final BigDecimal burgerCostTotal = ingredientsCostTotal.add(source.getProductionCost());

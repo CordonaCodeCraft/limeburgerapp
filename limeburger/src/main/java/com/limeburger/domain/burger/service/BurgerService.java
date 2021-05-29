@@ -25,5 +25,4 @@ public interface BurgerService {
   List<Burger> saveAll(List<Burger> burgers);
 
   Burger getRandomBurger();
-
 }

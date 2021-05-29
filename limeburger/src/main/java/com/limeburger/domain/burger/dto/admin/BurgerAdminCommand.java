@@ -2,7 +2,6 @@ package com.limeburger.domain.burger.dto.admin;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
@@ -21,16 +20,16 @@ public class BurgerAdminCommand {
 
   @NotBlank(message = "Burger name can not be empty")
   @Length(
-          min = 5,
-          max = 20,
-          message = "Burger name must be between 5 (inclusive) and 20 (inclusive) characters")
+      min = 5,
+      max = 20,
+      message = "Burger name must be between 5 (inclusive) and 20 (inclusive) characters")
   private String name;
 
   @NotBlank(message = "Burger description can not be empty")
   @Length(
-          min = 20,
-          max = 255,
-          message = "Burger description must be between 20 (inclusive) and 255 (inclusive) characters")
+      min = 20,
+      max = 255,
+      message = "Burger description must be between 20 (inclusive) and 255 (inclusive) characters")
   private String description;
 
   @URL

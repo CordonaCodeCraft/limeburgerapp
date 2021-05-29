@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.limeburger.domain.allergen.model.Allergen;
 import com.limeburger.domain.burger.dto.admin.BurgerAdminCommand;
+import com.limeburger.domain.burger.dto.customer.BurgerCustomerCommand;
+import com.limeburger.domain.burger.dto.customer.BurgerCustomerComposed;
 import com.limeburger.domain.burger.dto.customer.BurgerCustomerView;
 import com.limeburger.domain.burger.mapper.BurgerMapper;
 import com.limeburger.domain.burger.model.Burger;
@@ -39,7 +41,8 @@ public class Sandbox {
             .build();
 
     ObjectMapper mapper = new ObjectMapper();
-    String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(burgerAdminCommand);
+    String jsonString =
+        mapper.writerWithDefaultPrettyPrinter().writeValueAsString(burgerAdminCommand);
 
     System.out.println(jsonString);
 
@@ -151,6 +154,14 @@ public class Sandbox {
             .discountCoefficient(BigDecimal.valueOf(0.5))
             .productionCost(BigDecimal.valueOf(2.00))
             .build();
+
+    BurgerCustomerCommand command =
+        BurgerCustomerCommand.builder()
+            .name("My burger")
+            .ingredients(List.of("Chicken meat", "Russian salad", "Sesame bread"))
+            .build();
+
+    BurgerCustomerComposed composed = BurgerMapper.INSTANCE.toBurgerCustomerComposed(command);
 
     BurgerCustomerView test = BurgerMapper.INSTANCE.toBurgerCustomerView(limeBurger);
 

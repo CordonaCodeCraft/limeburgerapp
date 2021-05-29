@@ -19,9 +19,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(AdminBeerController.BASE_URL)
+@RequestMapping(BurgerAdminController.BASE_URL)
 @RequiredArgsConstructor
-public class AdminBeerController {
+public class BurgerAdminController {
 
   public static final String BASE_URL = "/api/v1/admin";
 
@@ -33,7 +33,7 @@ public class AdminBeerController {
     return "Hello lime admin!";
   }
 
-  @GetMapping("/burgers/")
+  @GetMapping("/burgers")
   @ResponseStatus(HttpStatus.OK)
   public BurgerAdminViewPagedList getAllBurgersAsPage(Pageable pageable) {
 
@@ -51,13 +51,13 @@ public class AdminBeerController {
         pagedBurgers.getTotalElements());
   }
 
-  @GetMapping("/burgers/id/")
+  @GetMapping("/burgers/id")
   @ResponseStatus(HttpStatus.OK)
   public BurgerAdminView getBurgerByName(@RequestParam(value = "id") Long id) {
     return BurgerMapper.INSTANCE.toBurgerAdminView(burgerService.findById(id).get());
   }
 
-  @GetMapping("/burgers/name/")
+  @GetMapping("/burgers/name")
   @ResponseStatus(HttpStatus.OK)
   public BurgerAdminView getBurgerByName(@RequestParam(value = "name") String name) {
     return BurgerMapper.INSTANCE.toBurgerAdminView(

@@ -69,5 +69,4 @@ public class BurgerCustomerController {
   public BurgerCustomerComposed addBurger(@Valid @RequestBody BurgerCustomerCommand input) {
     return BurgerMapper.INSTANCE.toBurgerCustomerComposed(input);
   }
-
 }
