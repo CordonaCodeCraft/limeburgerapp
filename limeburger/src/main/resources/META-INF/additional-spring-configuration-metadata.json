@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "bucket4j.enabled",
+      "type": "java.lang.String",
+      "description": "Description for bucket4j.enabled."
+    },
+    {
+      "name": "bucket4j.filters",
+      "type": "java.lang.String",
+      "description": "Description for bucket4j.filters."
+    }
+  ] }

@@ -9,5 +9,21 @@ spring:
   h2:
     console:
       enabled: true
+  cache:
+    cache-names:
+      - rate-limit-buckets
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=3600s
 server:
   port: 8080
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: rate-limit-buckets
+      url: /api/v1/customer.*
+      http-response-body: "{ \"Too many requests! Try again later...\" }"
+      rate-limits:
+          - bandwidths:
+            - capacity: 3600
+              time: 1
+              unit: hours
