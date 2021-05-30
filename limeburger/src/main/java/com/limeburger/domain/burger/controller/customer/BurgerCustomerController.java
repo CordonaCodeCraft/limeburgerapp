@@ -7,6 +7,9 @@ import com.limeburger.domain.burger.dto.customer.BurgerCustomerViewPagedList;
 import com.limeburger.domain.burger.mapper.BurgerMapper;
 import com.limeburger.domain.burger.model.Burger;
 import com.limeburger.domain.burger.service.BurgerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,6 +25,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Api(tags = {"Customer API"})
 @RestController
 @RequestMapping(BurgerCustomerController.BASE_URL)
 @RequiredArgsConstructor
@@ -32,12 +36,16 @@ public class BurgerCustomerController {
 
   private final BurgerService burgerService;
 
+  @ApiOperation(value = "Greets the customer with a friendly message")
   @GetMapping("/")
   @ResponseStatus(HttpStatus.OK)
   public String sayHi() {
     return "Hello lime customer!";
   }
 
+  @ApiOperation(
+      value = "Displays a paged list of all burgers",
+      notes = "The burgers are being displayed in customer view")
   @GetMapping("/burgers")
   @ResponseStatus(HttpStatus.OK)
   public BurgerCustomerViewPagedList getAllBurgersAsPage(final Pageable pageable) {
@@ -58,9 +66,20 @@ public class BurgerCustomerController {
         pagedBurgers.getTotalElements());
   }
 
+  @ApiOperation(
+      value = "Returns a burger, queried by name",
+      notes =
+          "The burger is being displayed in customer view.\n"
+              + "Burger will be returned even in case of a partial match ( \"Lim\" for \"Lime burger\" ). \n"
+              + "If the query matches multiple burgers - for the demo the corresponding exception ( \"IncorrectResultSizeDataAccessException\n"
+              + "\" ) is being handled with a basic HTML page, describing the error.\n"
+              + "In case of a wrong query, the corresponding \"NoSuchElementException\" is being handled with a basic HTML page, describing the error. Offensively\"")
   @GetMapping("/burgers/name")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerCustomerView getBurgerByName(@RequestParam("name") final String name) {
+  public BurgerCustomerView getBurgerByName(
+      @ApiParam(value = "The burger name or part of the burger's name, queried by the user")
+          @RequestParam("name")
+          final String name) {
 
     Optional<Burger> burger = burgerService.findByNameLike("%" + name + "%");
 
@@ -72,6 +91,11 @@ public class BurgerCustomerController {
     }
   }
 
+  @ApiOperation(
+      value = "Returns a random burger",
+      notes =
+          "Only the customers can query a random burger.\n"
+              + "The assumption is that there is no use case where an admin user would want to randomly access a burger")
   @GetMapping("/burgers/random")
   @ResponseStatus(HttpStatus.OK)
   public BurgerCustomerView getRandomBurger() {
@@ -81,18 +105,29 @@ public class BurgerCustomerController {
     return BurgerMapper.INSTANCE.toBurgerCustomerView(burgerService.getRandomBurger());
   }
 
-  @PostMapping("/burgers/compose")
+  @ApiOperation(
+      value = "Composes a burger with ingredients, preferred by the customer",
+      notes =
+          "The composed burger is not being persisted in the database.\n"
+              + "the method simply returns a JSON representation of the composed burger in customer view")
+  @GetMapping("/burgers/compose")
   @ResponseStatus(HttpStatus.CREATED)
   public BurgerCustomerComposed addBurger(
-      @Valid @RequestBody final BurgerCustomerCommand input, final BindingResult bindingResult) {
+      @ApiParam(
+              value =
+                  "Command object, containing the necessary information for composing a new burger")
+          @Valid
+          @RequestBody
+          final BurgerCustomerCommand input,
+      final BindingResult bindingResult) {
 
     if (bindingResult.hasErrors()) {
       throw new NumberFormatException("Burger not valid");
     } else {
       log.info(
-              String.format(
-                      "Returning \"%s\" burger, composed by customer with %d ingredients",
-                      input.getName(), input.getIngredients().size()));
+          String.format(
+              "Returning \"%s\" burger, composed by customer with %d ingredients",
+              input.getName(), input.getIngredients().size()));
 
       return BurgerMapper.INSTANCE.toBurgerCustomerComposed(input);
     }

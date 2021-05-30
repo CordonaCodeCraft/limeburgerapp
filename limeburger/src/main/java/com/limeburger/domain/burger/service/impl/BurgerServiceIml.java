@@ -53,7 +53,7 @@ public class BurgerServiceIml implements BurgerService {
 
     log.info(String.format("Created new \"%s\" burger in database", newBurger.getName()));
 
-    return Optional.ofNullable(saved);
+    return Optional.of(saved);
   }
 
   private Set<Ingredient> getIngredients(final BurgerAdminCommand source) {

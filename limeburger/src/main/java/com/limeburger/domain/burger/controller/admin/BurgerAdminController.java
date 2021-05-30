@@ -6,6 +6,9 @@ import com.limeburger.domain.burger.dto.admin.BurgerAdminViewPagedList;
 import com.limeburger.domain.burger.mapper.BurgerMapper;
 import com.limeburger.domain.burger.model.Burger;
 import com.limeburger.domain.burger.service.BurgerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,6 +24,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Api(tags = {"Admin API"})
 @RestController
 @RequestMapping(BurgerAdminController.BASE_URL)
 @RequiredArgsConstructor
@@ -31,12 +35,16 @@ public class BurgerAdminController {
 
   private final BurgerService burgerService;
 
+  @ApiOperation(value = "Greets the admin with a friendly message")
   @GetMapping("/")
   @ResponseStatus(HttpStatus.OK)
   public String sayHi() {
     return "Hello lime admin!";
   }
 
+  @ApiOperation(
+      value = "Displays a paged list of all burgers",
+      notes = "The burgers are being displayed in admin view")
   @GetMapping("/burgers")
   @ResponseStatus(HttpStatus.OK)
   public BurgerAdminViewPagedList getAllBurgersAsPage(final Pageable pageable) {
@@ -57,9 +65,17 @@ public class BurgerAdminController {
         pagedBurgers.getTotalElements());
   }
 
+  @ApiOperation(
+      value = "Returns a burger, queried by ID",
+      notes =
+          "Only the admins can query a burger by ID - the customers do not have access to this property\n"
+              + "The burger is being displayed in admin view.\n"
+              + "In case of a wrong query, the corresponding \"NoSuchElementException\" is being handled with a basic HTML page, describing the error. Offensively\"")
   @GetMapping("/burgers/id")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerAdminView getBurgerByName(@RequestParam(value = "id") final Long id) {
+  public BurgerAdminView getBurgerByName(
+      @ApiParam(value = "The burger id, queried by the user") @RequestParam(value = "id")
+          final Long id) {
 
     Optional<Burger> burger = burgerService.findById(id);
 
@@ -71,9 +87,20 @@ public class BurgerAdminController {
     }
   }
 
+  @ApiOperation(
+      value = "Returns a burger, queried by name",
+      notes =
+          "The burger is being displayed in admin view.\n"
+              + "Burger will be returned even in case of a partial match ( \"Lim\" for \"Lime burger\" ). \n"
+              + "If the query matches multiple burgers - for the demo the corresponding exception ( \"IncorrectResultSizeDataAccessException\n"
+              + "\" ) is being handled with a basic HTML page, describing the error.\n"
+              + "In case of a wrong query, the corresponding \"NoSuchElementException\" is being handled with a basic HTML page, describing the error. Offensively\"")
   @GetMapping("/burgers/name")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerAdminView getBurgerByName(@RequestParam(value = "name") final String name) {
+  public BurgerAdminView getBurgerByName(
+      @ApiParam(value = "The burger name or part of the burger's name, queried by the user")
+          @RequestParam(value = "name")
+          final String name) {
 
     Optional<Burger> burger = burgerService.findByNameLike("%" + name + "%");
 
@@ -85,10 +112,21 @@ public class BurgerAdminController {
     }
   }
 
+  @ApiOperation(
+      value = "Persists a new burger in the database",
+      notes =
+          "Only the admins can create a new burger in the database. \n"
+              + "In contrast - the customers can compose a burger with a preferred list of ingredients")
   @PostMapping("/burgers/create")
   @ResponseStatus(HttpStatus.CREATED)
   public BurgerAdminView addBurger(
-      @Valid @RequestBody final BurgerAdminCommand input, final BindingResult bindingResult) {
+      @ApiParam(
+              value =
+                  "Command object, containing the necessary information for creating a new burger")
+          @Valid
+          @RequestBody
+          final BurgerAdminCommand input,
+      final BindingResult bindingResult) {
 
     if (bindingResult.hasErrors()) {
       throw new NumberFormatException("Burger not valid");
