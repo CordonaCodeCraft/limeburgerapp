@@ -1,11 +1,12 @@
-package com.limeburger.domain.ingredient.model;
+package com.limeburger.domain.ingredient.entity;
 
-import com.limeburger.domain.BaseEntity;
-import com.limeburger.domain.allergen.model.Allergen;
-import com.limeburger.domain.burger.model.Burger;
+import com.limeburger.domain.allergen.entity.Allergen;
+import com.limeburger.domain.base.BaseEntity;
+import com.limeburger.domain.burger.entity.Burger;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -23,6 +24,7 @@ import java.util.Set;
 @Table(name = "ingredients")
 @Getter
 @Setter
+@ToString
 @SuperBuilder
 @NoArgsConstructor
 public class Ingredient extends BaseEntity {
@@ -80,6 +82,7 @@ public class Ingredient extends BaseEntity {
   @ManyToMany(mappedBy = "ingredients")
   private Set<Burger> burgers = new HashSet<>();
 
+  @ToString.Exclude
   @ManyToMany()
   @JoinTable(
       name = "ingredients_allergens",
@@ -94,9 +97,9 @@ public class Ingredient extends BaseEntity {
 
   public void addAllergens(List<Allergen> allergens) {
     allergens.forEach(
-        a -> {
-          this.allergens.add(a);
-          a.getIngredients().add(this);
+        alergen -> {
+          this.allergens.add(alergen);
+          alergen.getIngredients().add(this);
         });
   }
 
@@ -121,31 +124,6 @@ public class Ingredient extends BaseEntity {
   @Override
   public int hashCode() {
     return new HashCodeBuilder().append(this.name).toHashCode();
-  }
-
-  @Override
-  public String toString() {
-    return "Ingredient{"
-        + "ingredientType="
-        + ingredientType
-        + ", name='"
-        + name
-        + '\''
-        + ", description='"
-        + description
-        + '\''
-        + ", imageUrl='"
-        + imageUrl
-        + '\''
-        + ", grammage="
-        + grammage
-        + ", calories="
-        + calories
-        + ", price="
-        + sellingPrice
-        + ", cost="
-        + purchasePrice
-        + '}';
   }
 
   public enum IngredientType {

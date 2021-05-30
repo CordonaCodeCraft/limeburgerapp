@@ -1,6 +1,6 @@
 package com.limeburger.bootstrap.initializers;
 
-import com.limeburger.domain.allergen.model.Allergen;
+import com.limeburger.domain.allergen.entity.Allergen;
 import com.limeburger.domain.allergen.service.AllergenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.List;
 
-import static com.limeburger.domain.allergen.model.Allergen.AllergenType.*;
+import static com.limeburger.domain.allergen.entity.Allergen.AllergenType.*;
 
 @Slf4j
 @Component

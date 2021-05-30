@@ -1,12 +1,12 @@
 package com.limeburger.domain.burger.mapper;
 
-import com.limeburger.domain.burger.dto.admin.BurgerAdminView;
-import com.limeburger.domain.burger.dto.customer.BurgerCustomerCommand;
-import com.limeburger.domain.burger.dto.customer.BurgerCustomerComposed;
-import com.limeburger.domain.burger.dto.customer.BurgerCustomerView;
-import com.limeburger.domain.burger.model.Burger;
-import com.limeburger.domain.ingredient.dto.IngredientAdminView;
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.burger.model.admin.BurgerAdminDto;
+import com.limeburger.domain.burger.model.customer.BurgerCustomerDto;
+import com.limeburger.domain.burger.model.customer.ComposeBurgerCustomerRequest;
+import com.limeburger.domain.burger.model.customer.BurgerComposedDto;
+import com.limeburger.domain.burger.entity.Burger;
+import com.limeburger.domain.ingredient.model.IngredientAdminDto;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import com.limeburger.domain.ingredient.repository.IngredientsLookupTable;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.MappingTarget;
@@ -22,14 +22,14 @@ public interface MapperService {
   }
 
   @AfterMapping
-  default void setBurgerCustomerViewPrice(
-      final Burger source, @MappingTarget final BurgerCustomerView target) {
+  default void setBurgerCustomerDtoPrice(
+      final Burger source, @MappingTarget final BurgerCustomerDto target) {
     target.setPrice(getFormattedDecimalString(getCustomerPrice(source)));
   }
 
   @AfterMapping
-  default void setBurgerCustomerViewGrammage(
-      final Burger source, @MappingTarget final BurgerCustomerView target) {
+  default void setBurgerCustomerDtoGrammage(
+      final Burger source, @MappingTarget final BurgerCustomerDto target) {
 
     final Integer grammageTotal =
         source.getIngredients().stream().map(Ingredient::getGrammage).reduce(0, Integer::sum);
@@ -38,12 +38,12 @@ public interface MapperService {
   }
 
   @AfterMapping
-  default void setBurgerCustomerComposedPrice(
-      final BurgerCustomerCommand source, @MappingTarget final BurgerCustomerComposed target) {
+  default void setBurgerComposedDtoPrice(
+          final ComposeBurgerCustomerRequest source, @MappingTarget final BurgerComposedDto target) {
 
     final BigDecimal priceTotal =
         source.getIngredients().stream()
-            .map(i -> IngredientsLookupTable.getTable().get(i))
+            .map(ingredient -> IngredientsLookupTable.getTable().get(ingredient))
             .map(Ingredient::getSellingPrice)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
@@ -51,12 +51,12 @@ public interface MapperService {
   }
 
   @AfterMapping
-  default void setBurgerCustomerComposedGrammage(
-      final BurgerCustomerCommand source, @MappingTarget final BurgerCustomerComposed target) {
+  default void setBurgerComposedDtoGrammage(
+          final ComposeBurgerCustomerRequest source, @MappingTarget final BurgerComposedDto target) {
 
     final Integer grammageTotal =
         source.getIngredients().stream()
-            .map(i -> IngredientsLookupTable.getTable().get(i))
+            .map(ingredient -> IngredientsLookupTable.getTable().get(ingredient))
             .map(Ingredient::getGrammage)
             .reduce(0, Integer::sum);
 
@@ -65,14 +65,14 @@ public interface MapperService {
 
   @AfterMapping
   default void setBurgerAdminViewIngredientsCostTotal(
-      final Burger source, @MappingTarget final BurgerAdminView target) {
+      final Burger source, @MappingTarget final BurgerAdminDto target) {
     target.setIngredientsCostTotal(getFormattedDecimalString(getIngredientsCostTotal(source)));
   }
 
   // todo: investigate why List size is zero
   @AfterMapping
-  default void setIngredientAdminViewContainingIngredient(
-      final Ingredient source, @MappingTarget final IngredientAdminView target) {
+  default void setIngredientAdminDtoContainingIngredient(
+      final Ingredient source, @MappingTarget final IngredientAdminDto target) {
 
     //    final List<String> burgerNames =
     //        ingredient.getBurgers().stream()
@@ -84,8 +84,8 @@ public interface MapperService {
   }
 
   @AfterMapping
-  default void setBurgerAdminViewProfitExpected(
-      final Burger source, @MappingTarget final BurgerAdminView target) {
+  default void setBurgerAdminDtoProfitExpected(
+      final Burger source, @MappingTarget final BurgerAdminDto target) {
 
     final BigDecimal ingredientsCostTotal = getIngredientsCostTotal(source);
     final BigDecimal burgerCostTotal = ingredientsCostTotal.add(source.getProductionCost());

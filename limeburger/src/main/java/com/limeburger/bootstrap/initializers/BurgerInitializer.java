@@ -1,8 +1,8 @@
 package com.limeburger.bootstrap.initializers;
 
-import com.limeburger.domain.burger.model.Burger;
+import com.limeburger.domain.burger.entity.Burger;
 import com.limeburger.domain.burger.service.BurgerService;
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import com.limeburger.domain.ingredient.service.IngredientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.limeburger.domain.burger.model.Burger.BurgerType.*;
+import static com.limeburger.domain.burger.entity.Burger.BurgerType.*;
 
 @Component
 @Slf4j

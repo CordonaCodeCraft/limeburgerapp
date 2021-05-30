@@ -1,6 +1,6 @@
 package com.limeburger.domain.allergen.service.impl;
 
-import com.limeburger.domain.allergen.model.Allergen;
+import com.limeburger.domain.allergen.entity.Allergen;
 import com.limeburger.domain.allergen.repository.AllergenRepository;
 import com.limeburger.domain.allergen.service.AllergenService;
 import lombok.RequiredArgsConstructor;

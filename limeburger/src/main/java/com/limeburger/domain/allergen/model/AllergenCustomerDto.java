@@ -1,4 +1,4 @@
-package com.limeburger.domain.allergen.dto;
+package com.limeburger.domain.allergen.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,7 +7,7 @@ import lombok.Data;
 @ApiModel(value = "DTO for displaying an allergen with attributes, tailored for a customer user")
 
 @Data
-public class AllergenCustomerView {
+public class AllergenCustomerDto {
 
   @ApiModelProperty(value = "Allergen's name", required = true)
   private String name;

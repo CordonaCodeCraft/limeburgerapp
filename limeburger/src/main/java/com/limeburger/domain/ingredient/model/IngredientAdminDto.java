@@ -1,4 +1,4 @@
-package com.limeburger.domain.ingredient.dto;
+package com.limeburger.domain.ingredient.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,9 +6,9 @@ import lombok.Data;
 
 import java.util.List;
 
-@ApiModel(value = "DTO for displaying an ingredient with attributes, tailored for a admin user")
+@ApiModel(value = "DTO for displaying an ingredient with attributes, tailored for an admin user")
 @Data
-public class IngredientAdminView {
+public class IngredientAdminDto {
 
   @ApiModelProperty(value = "String representation of the id", required = true)
   private String id;

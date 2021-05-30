@@ -1,10 +1,10 @@
 package com.limeburger.domain.burger.service.impl;
 
-import com.limeburger.domain.burger.dto.admin.BurgerAdminCommand;
-import com.limeburger.domain.burger.model.Burger;
+import com.limeburger.domain.burger.model.admin.CreateBurgerAdminRequest;
+import com.limeburger.domain.burger.entity.Burger;
 import com.limeburger.domain.burger.repository.BurgerRepository;
 import com.limeburger.domain.burger.service.BurgerService;
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import com.limeburger.domain.ingredient.service.IngredientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class BurgerServiceIml implements BurgerService {
+public class BurgerServiceImpl implements BurgerService {
 
   private final BurgerRepository burgerRepository;
   private final IngredientService ingredientService;
@@ -30,7 +30,7 @@ public class BurgerServiceIml implements BurgerService {
   }
 
   @Override
-  public Optional<Burger> addNewBurger(final BurgerAdminCommand source) {
+  public Optional<Burger> addNewBurger(final CreateBurgerAdminRequest source) {
 
     final Set<Ingredient> ingredients = getIngredients(source);
 
@@ -56,7 +56,7 @@ public class BurgerServiceIml implements BurgerService {
     return Optional.of(saved);
   }
 
-  private Set<Ingredient> getIngredients(final BurgerAdminCommand source) {
+  private Set<Ingredient> getIngredients(final CreateBurgerAdminRequest source) {
     return source.getIngredients().stream()
         .map(n -> ingredientService.getByName(n).get())
         .collect(Collectors.toSet());
@@ -84,7 +84,7 @@ public class BurgerServiceIml implements BurgerService {
 
   @Override
   public List<Burger> saveAll(final List<Burger> burgers) {
-    burgers.forEach(b -> log.info(String.format("Saved \"%s\" burger in database", b.getName())));
+    burgers.forEach(burger -> log.info(String.format("Saved \"%s\" burger in database", burger.getName())));
     log.info(String.format("Saved a total of %d burgers in database", burgers.size()));
     return burgerRepository.saveAll(burgers);
   }

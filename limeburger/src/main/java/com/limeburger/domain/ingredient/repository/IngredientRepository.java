@@ -1,6 +1,6 @@
 package com.limeburger.domain.ingredient.repository;
 
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,6 +1,6 @@
-package com.limeburger.domain.burger.dto.admin;
+package com.limeburger.domain.burger.model.admin;
 
-import com.limeburger.domain.ingredient.dto.IngredientAdminView;
+import com.limeburger.domain.ingredient.model.IngredientAdminDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 @ApiModel(value = "DTO for displaying a burger with attributes, tailored for an admin user")
 @Data
-public class BurgerAdminView {
+public class BurgerAdminDto {
 
   @ApiModelProperty(value = "String representation of the id", required = true)
   private String id;
@@ -21,7 +21,7 @@ public class BurgerAdminView {
   private String name;
 
   @ApiModelProperty(value = "Collection of ingredients with attributes, tailored for an admin user", required = true)
-  private Set<IngredientAdminView> ingredients;
+  private Set<IngredientAdminDto> ingredients;
 
   @ApiModelProperty(value = "Informs about the promotion status of the burger", required = true)
   private Boolean isInPromotion;

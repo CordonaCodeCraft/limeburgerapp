@@ -1,4 +1,4 @@
-package com.limeburger.domain.burger.dto.customer;
+package com.limeburger.domain.burger.model.customer;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,13 +10,13 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @ApiModel(
-    value = "Command object for composing new burgers by an customer user",
+    value = "Command object for composing new burgers by customer request",
     description =
         "This object is being passed to the Customer API and is being consumed by the \"/api/v1/customer/burgers/compose\" endpoint.\n"
             + "The object contains attributes, required for composing a burger, validated with constraints\n")
 @Data
 @Builder
-public class BurgerCustomerCommand {
+public class ComposeBurgerCustomerRequest {
 
   @ApiModelProperty(
       value =

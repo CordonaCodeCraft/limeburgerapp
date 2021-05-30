@@ -1,16 +1,16 @@
 package com.limeburger.domain.burger.mapper;
 
-import com.limeburger.domain.allergen.dto.AllergenCustomerView;
+import com.limeburger.domain.allergen.model.AllergenCustomerDto;
 import com.limeburger.domain.allergen.mapper.AllergenMapper;
-import com.limeburger.domain.burger.dto.admin.BurgerAdminView;
-import com.limeburger.domain.burger.dto.customer.BurgerCustomerCommand;
-import com.limeburger.domain.burger.dto.customer.BurgerCustomerComposed;
-import com.limeburger.domain.burger.dto.customer.BurgerCustomerView;
-import com.limeburger.domain.burger.model.Burger;
-import com.limeburger.domain.ingredient.dto.IngredientAdminView;
-import com.limeburger.domain.ingredient.dto.IngredientCustomerView;
+import com.limeburger.domain.burger.model.admin.BurgerAdminDto;
+import com.limeburger.domain.burger.model.customer.BurgerComposedDto;
+import com.limeburger.domain.burger.model.customer.BurgerCustomerDto;
+import com.limeburger.domain.burger.model.customer.ComposeBurgerCustomerRequest;
+import com.limeburger.domain.burger.entity.Burger;
+import com.limeburger.domain.ingredient.model.IngredientAdminDto;
+import com.limeburger.domain.ingredient.model.IngredientCustomerDto;
 import com.limeburger.domain.ingredient.mapper.IngredientMapper;
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import com.limeburger.domain.ingredient.repository.IngredientsLookupTable;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.limeburger.domain.burger.model.Burger.BurgerType;
+import static com.limeburger.domain.burger.entity.Burger.BurgerType;
 
 @Mapper
 public interface BurgerMapper extends MapperService {
@@ -32,7 +32,7 @@ public interface BurgerMapper extends MapperService {
   @Mapping(
       source = "ingredients",
       target = "ingredients",
-      qualifiedByName = "ingredientsToCustomerView")
+      qualifiedByName = "ingredientsToCustomerDto")
   @Mapping(
       source = "ingredients",
       target = "allergens",
@@ -41,13 +41,13 @@ public interface BurgerMapper extends MapperService {
       source = "isInPromotion",
       target = "isInPromotion",
       qualifiedByName = "promotionBooleanToPromotionString")
-  BurgerCustomerView toBurgerCustomerView(final Burger source);
+  BurgerCustomerDto toBurgerCustomerDto(final Burger source);
 
   @Mapping(source = "burgerType", target = "type", qualifiedByName = "BurgerEnumToBurgerStringValue")
   @Mapping(
       source = "ingredients",
       target = "ingredients",
-      qualifiedByName = "ingredientsToAdminView")
+      qualifiedByName = "ingredientsToAdminDto")
   @Mapping(
       source = "discountCoefficient",
       target = "discountCoefficient",
@@ -56,13 +56,13 @@ public interface BurgerMapper extends MapperService {
       source = "productionCost",
       target = "productionCost",
       qualifiedByName = "decimalToString")
-  BurgerAdminView toBurgerAdminView(final Burger source);
+  BurgerAdminDto toBurgerAdminDto(final Burger source);
 
   @Mapping(
       source = "ingredients",
       target = "ingredients",
       qualifiedByName = "ingredientsListToIngredientSet")
-  BurgerCustomerComposed toBurgerCustomerComposed(final BurgerCustomerCommand source);
+  BurgerComposedDto toBurgerComposedDto(final ComposeBurgerCustomerRequest source);
 
   @Named("BurgerEnumToBurgerStringValue")
   static String convertBurgerEnumToBurgerStringValue(final BurgerType source) {
@@ -75,34 +75,34 @@ public interface BurgerMapper extends MapperService {
   }
 
   @Named("ingredientsToAllergenSet")
-  static Set<AllergenCustomerView> convertIngredientsToAllergenSet(final Set<Ingredient> source) {
+  static Set<AllergenCustomerDto> convertIngredientsToAllergenSet(final Set<Ingredient> source) {
     return source.stream()
         .map(Ingredient::getAllergens)
-        .flatMap(s -> s.stream().map(AllergenMapper.INSTANCE::toAllergenCustomerView))
+        .flatMap(set -> set.stream().map(AllergenMapper.INSTANCE::toAllergenCustomerDto))
         .collect(Collectors.toSet());
   }
 
-  @Named("ingredientsToCustomerView")
-  static Set<IngredientCustomerView> convertIngredientsToCustomerView(
+  @Named("ingredientsToCustomerDto")
+  static Set<IngredientCustomerDto> convertIngredientsToCustomerDto(
       final Set<Ingredient> source) {
     return source.stream()
-        .map(IngredientMapper.INSTANCE::toIngredientCustomerView)
+        .map(IngredientMapper.INSTANCE::toIngredientCustomerDto)
         .collect(Collectors.toSet());
   }
 
-  @Named("ingredientsToAdminView")
-  static Set<IngredientAdminView> convertIngredientsToAdminView(final Set<Ingredient> source) {
+  @Named("ingredientsToAdminDto")
+  static Set<IngredientAdminDto> convertIngredientsToAdminDto(final Set<Ingredient> source) {
     return source.stream()
-        .map(IngredientMapper.INSTANCE::toIngredientAdminView)
+        .map(IngredientMapper.INSTANCE::toIngredientAdminDto)
         .collect(Collectors.toSet());
   }
 
   @Named("ingredientsListToIngredientSet")
-  static Set<IngredientCustomerView> convertIngredientsListToIngredientSet(
+  static Set<IngredientCustomerDto> convertIngredientsListToIngredientSet(
       final List<String> source) {
     return source.stream()
-        .map(i -> IngredientsLookupTable.getTable().get(i))
-        .map(IngredientMapper.INSTANCE::toIngredientCustomerView)
+        .map(ingredient -> IngredientsLookupTable.getTable().get(ingredient))
+        .map(IngredientMapper.INSTANCE::toIngredientCustomerDto)
         .collect(Collectors.toSet());
   }
 }

@@ -6,10 +6,13 @@
       <option name="allowedClasses">
         <set>
           <option value="com.limeburger.bootstrap.Initializer" />
+          <option value="com.limeburger.domain.allergen.entity.Allergen" />
           <option value="com.limeburger.domain.allergen.model.Allergen" />
           <option value="com.limeburger.domain.allergen.model.Allergen.AllergenType" />
+          <option value="com.limeburger.domain.burger.entity.Burger" />
           <option value="com.limeburger.domain.burger.model.Burger" />
           <option value="com.limeburger.domain.burger.model.Burger.BurgerType" />
+          <option value="com.limeburger.domain.ingredient.entity.Ingredient.IngredientType" />
           <option value="com.limeburger.domain.ingredient.model.Ingredient" />
           <option value="com.limeburger.domain.ingredient.model.Ingredient.IngredientType" />
           <option value="javax.persistence.CascadeType" />

@@ -1,6 +1,6 @@
 package com.limeburger.domain.ingredient.service.impl;
 
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import com.limeburger.domain.ingredient.repository.IngredientRepository;
 import com.limeburger.domain.ingredient.service.IngredientService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class IngredientServiceImpl implements IngredientService {
   @Override
   public List<Ingredient> saveAll(final List<Ingredient> ingredients) {
     ingredients.forEach(
-        i -> log.info(String.format("Saved \"%s\" ingredient in database", i.getName())));
+        ingredient -> log.info(String.format("Saved \"%s\" ingredient in database", ingredient.getName())));
     log.info(String.format("Saved a total of %d ingredients in database", ingredients.size()));
     return ingredientRepository.saveAll(ingredients);
   }

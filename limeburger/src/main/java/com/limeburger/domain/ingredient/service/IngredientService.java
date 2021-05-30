@@ -1,6 +1,6 @@
 package com.limeburger.domain.ingredient.service;
 
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 
 import java.util.List;
 import java.util.Optional;

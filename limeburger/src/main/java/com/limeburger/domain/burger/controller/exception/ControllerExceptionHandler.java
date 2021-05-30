@@ -21,7 +21,7 @@ public class ControllerExceptionHandler {
     log.error("Handling Number Format Exception");
     log.error(exception.getMessage());
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.setViewName("NumberFormatExceptionError");
+    modelAndView.setViewName("NumberFormatExceptionErrorPage");
     modelAndView.addObject("exception", exception);
     return modelAndView;
   }
@@ -32,7 +32,7 @@ public class ControllerExceptionHandler {
     log.error("Handling no such element exception");
     log.error(exception.getMessage());
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.setViewName("NoSuchElementException");
+    modelAndView.setViewName("NoSuchElementExceptionErrorPage");
     return modelAndView;
   }
 
@@ -42,7 +42,7 @@ public class ControllerExceptionHandler {
     log.error("Handling incorrect result size data access exception");
     log.error(exception.getMessage());
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.setViewName("IncorrectResultSizeException");
+    modelAndView.setViewName("IncorrectResultSizeExceptionErrorPage");
     return modelAndView;
   }
 
@@ -52,7 +52,7 @@ public class ControllerExceptionHandler {
     log.error("Handling data integrity violation exception");
     log.error(exception.getMessage());
     ModelAndView modelAndView = new ModelAndView();
-    modelAndView.setViewName("DataIntegrityViolationException");
+    modelAndView.setViewName("DataIntegrityViolationExceptionErrorPage");
     return modelAndView;
   }
 }

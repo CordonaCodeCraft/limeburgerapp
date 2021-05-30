@@ -1,7 +1,7 @@
-package com.limeburger.domain.burger.dto.customer;
+package com.limeburger.domain.burger.model.customer;
 
-import com.limeburger.domain.allergen.dto.AllergenCustomerView;
-import com.limeburger.domain.ingredient.dto.IngredientCustomerView;
+import com.limeburger.domain.allergen.model.AllergenCustomerDto;
+import com.limeburger.domain.ingredient.model.IngredientCustomerDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 @ApiModel(value = "DTO for displaying a burger with attributes, tailored for a customer user")
 @Data
-public class BurgerCustomerView {
+public class BurgerCustomerDto {
 
   @ApiModelProperty(
       value = "String representation of the burger type (Meat, Vegetarian, Vegan, etc)",
@@ -29,12 +29,12 @@ public class BurgerCustomerView {
   @ApiModelProperty(
       value = "Collection of ingredients with attributes, tailored for a customer user",
       required = true)
-  private Set<IngredientCustomerView> ingredients;
+  private Set<IngredientCustomerDto> ingredients;
 
   @ApiModelProperty(
       value = "Collection of allergens with attributes, tailored for a customer user",
       required = true)
-  private Set<AllergenCustomerView> allergens;
+  private Set<AllergenCustomerDto> allergens;
 
   @ApiModelProperty(value = "Informs about the promotion status of the burger", required = true)
   private String isInPromotion;

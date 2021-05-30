@@ -1,6 +1,6 @@
-package com.limeburger.domain.burger.dto.customer;
+package com.limeburger.domain.burger.model.customer;
 
-import com.limeburger.domain.ingredient.dto.IngredientCustomerView;
+import com.limeburger.domain.ingredient.model.IngredientCustomerDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 @ApiModel(value = "DTO for displaying burger, composed by a customer")
 @Data
-public class BurgerCustomerComposed {
+public class BurgerComposedDto {
 
   @ApiModelProperty(value = "Name of the composed burger", required = true)
   private String name;
@@ -17,7 +17,7 @@ public class BurgerCustomerComposed {
   @ApiModelProperty(
       value = "Collection of ingredients with attributes, tailored for a customer user",
       required = true)
-  private Set<IngredientCustomerView> ingredients;
+  private Set<IngredientCustomerDto> ingredients;
 
   @ApiModelProperty(
       value =

@@ -1,6 +1,6 @@
 package com.limeburger.domain.ingredient.repository;
 
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,12 +10,17 @@ import java.util.Map;
 
 @Slf4j
 @Getter
-public abstract class IngredientsLookupTable {
+public class IngredientsLookupTable {
+
+  //To prevent any instantiation of this class
+  private IngredientsLookupTable() {
+  }
 
   private static final Map<String, Ingredient> ingredientsTable = new HashMap<>();
 
   public static void initializeWith(final List<Ingredient> ingredients) {
-    ingredients.forEach(i -> ingredientsTable.putIfAbsent(i.getName(), i));
+    ingredients.forEach(
+        ingredient -> ingredientsTable.putIfAbsent(ingredient.getName(), ingredient));
     log.info(
         String.format(
             "Ingredients lookup table initialized with %d ingredients", ingredientsTable.size()));

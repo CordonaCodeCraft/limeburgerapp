@@ -1,15 +1,15 @@
 package com.limeburger.domain.ingredient.mapper;
 
 import com.limeburger.domain.burger.mapper.MapperService;
-import com.limeburger.domain.ingredient.dto.IngredientAdminView;
-import com.limeburger.domain.ingredient.dto.IngredientCustomerView;
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.ingredient.model.IngredientAdminDto;
+import com.limeburger.domain.ingredient.model.IngredientCustomerDto;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
-import static com.limeburger.domain.ingredient.model.Ingredient.IngredientType;
+import static com.limeburger.domain.ingredient.entity.Ingredient.IngredientType;
 
 @Mapper
 public interface IngredientMapper extends MapperService {
@@ -17,7 +17,7 @@ public interface IngredientMapper extends MapperService {
   IngredientMapper INSTANCE = Mappers.getMapper(IngredientMapper.class);
 
   @Mapping(source = "sellingPrice", target = "cost", qualifiedByName = "decimalToString")
-  IngredientCustomerView toIngredientCustomerView(final Ingredient source);
+  IngredientCustomerDto toIngredientCustomerDto(final Ingredient source);
 
   @Mapping(
       source = "ingredientType",
@@ -25,7 +25,7 @@ public interface IngredientMapper extends MapperService {
       qualifiedByName = "IngredientEnumToIngredientStringValue")
   @Mapping(source = "sellingPrice", target = "sellingPrice", qualifiedByName = "decimalToString")
   @Mapping(source = "purchasePrice", target = "purchasePrice", qualifiedByName = "decimalToString")
-  IngredientAdminView toIngredientAdminView(final Ingredient source);
+  IngredientAdminDto toIngredientAdminDto(final Ingredient source);
 
   @Named("IngredientEnumToIngredientStringValue")
   static String convertIngredientEnumToIngredientStringValue(final IngredientType source) {

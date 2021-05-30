@@ -1,4 +1,4 @@
-package com.limeburger.domain;
+package com.limeburger.domain.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

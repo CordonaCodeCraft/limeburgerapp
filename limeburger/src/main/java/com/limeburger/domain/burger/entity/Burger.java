@@ -1,10 +1,11 @@
-package com.limeburger.domain.burger.model;
+package com.limeburger.domain.burger.entity;
 
-import com.limeburger.domain.BaseEntity;
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.base.BaseEntity;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Table(name = "burgers")
 @Getter
 @Setter
+@ToString
 @SuperBuilder
 @NoArgsConstructor
 public class Burger extends BaseEntity {
@@ -47,6 +49,7 @@ public class Burger extends BaseEntity {
   @NotBlank(message = "Burger image URL can not be empty")
   private String imageUrl;
 
+  @ToString.Exclude
   @ManyToMany()
   @JoinTable(
       name = "burgers_ingredients",
@@ -79,9 +82,9 @@ public class Burger extends BaseEntity {
 
   public void addIngredients(Set<Ingredient> ingredients) {
     ingredients.forEach(
-        i -> {
-          this.getIngredients().add(i);
-          i.getBurgers().add(this);
+        ingredient -> {
+          this.getIngredients().add(ingredient);
+          ingredient.getBurgers().add(this);
         });
   }
 
@@ -106,31 +109,6 @@ public class Burger extends BaseEntity {
   @Override
   public int hashCode() {
     return new HashCodeBuilder().append(this.name).toHashCode();
-  }
-
-  @Override
-  public String toString() {
-    return "Burger{"
-        + "burgerType="
-        + burgerType
-        + ", name='"
-        + name
-        + '\''
-        + ", description='"
-        + description
-        + '\''
-        + ", imageUrl='"
-        + imageUrl
-        + '\''
-        + ", profitCoefficient="
-        + profitCoefficient
-        + ", isInPromotion="
-        + isInPromotion
-        + ", discountCoefficient="
-        + discountCoefficient
-        + ", productionCost="
-        + productionCost
-        + '}';
   }
 
   public enum BurgerType {

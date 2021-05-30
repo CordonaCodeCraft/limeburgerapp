@@ -1,8 +1,8 @@
 package com.limeburger.bootstrap.initializers;
 
-import com.limeburger.domain.allergen.model.Allergen;
+import com.limeburger.domain.allergen.entity.Allergen;
 import com.limeburger.domain.allergen.service.AllergenService;
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import com.limeburger.domain.ingredient.repository.IngredientsLookupTable;
 import com.limeburger.domain.ingredient.service.IngredientService;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.limeburger.domain.ingredient.model.Ingredient.IngredientType.*;
+import static com.limeburger.domain.ingredient.entity.Ingredient.IngredientType.*;
 
 @Slf4j
 @Component

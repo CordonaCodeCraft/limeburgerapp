@@ -1,7 +1,7 @@
 package com.limeburger.domain.burger.service;
 
-import com.limeburger.domain.burger.dto.admin.BurgerAdminCommand;
-import com.limeburger.domain.burger.model.Burger;
+import com.limeburger.domain.burger.model.admin.CreateBurgerAdminRequest;
+import com.limeburger.domain.burger.entity.Burger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,7 +12,7 @@ public interface BurgerService {
 
   Burger save(final Burger burger);
 
-  Optional<Burger> addNewBurger(final BurgerAdminCommand source);
+  Optional<Burger> addNewBurger(final CreateBurgerAdminRequest source);
 
   Page<Burger> findAllBurgers(final Pageable pageable);
 

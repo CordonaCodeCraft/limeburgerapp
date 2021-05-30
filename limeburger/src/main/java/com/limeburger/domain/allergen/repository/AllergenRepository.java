@@ -1,6 +1,6 @@
 package com.limeburger.domain.allergen.repository;
 
-import com.limeburger.domain.allergen.model.Allergen;
+import com.limeburger.domain.allergen.entity.Allergen;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

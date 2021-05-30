@@ -1,10 +1,10 @@
 package com.limeburger.domain.allergen.service;
 
-import com.limeburger.domain.allergen.model.Allergen;
+import com.limeburger.domain.allergen.entity.Allergen;
 
 import java.util.List;
 
-import static com.limeburger.domain.allergen.model.Allergen.AllergenType;
+import static com.limeburger.domain.allergen.entity.Allergen.AllergenType;
 
 public interface AllergenService {
 

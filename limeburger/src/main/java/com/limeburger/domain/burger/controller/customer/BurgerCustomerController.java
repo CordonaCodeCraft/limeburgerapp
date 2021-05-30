@@ -1,11 +1,11 @@
 package com.limeburger.domain.burger.controller.customer;
 
-import com.limeburger.domain.burger.dto.customer.BurgerCustomerCommand;
-import com.limeburger.domain.burger.dto.customer.BurgerCustomerComposed;
-import com.limeburger.domain.burger.dto.customer.BurgerCustomerView;
-import com.limeburger.domain.burger.dto.customer.BurgerCustomerViewPagedList;
+import com.limeburger.domain.burger.model.customer.BurgerCustomerDto;
+import com.limeburger.domain.burger.model.customer.ComposeBurgerCustomerRequest;
+import com.limeburger.domain.burger.model.customer.BurgerComposedDto;
+import com.limeburger.domain.burger.model.customer.BurgerCustomerDtoPagedList;
 import com.limeburger.domain.burger.mapper.BurgerMapper;
-import com.limeburger.domain.burger.model.Burger;
+import com.limeburger.domain.burger.entity.Burger;
 import com.limeburger.domain.burger.service.BurgerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,18 +48,18 @@ public class BurgerCustomerController {
       notes = "The burgers are being displayed in customer view")
   @GetMapping("/burgers")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerCustomerViewPagedList getAllBurgersAsPage(final Pageable pageable) {
+  public BurgerCustomerDtoPagedList getAllBurgersAsPage(final Pageable pageable) {
 
     final Page<Burger> pagedBurgers = burgerService.findAllBurgers(pageable);
 
-    final List<BurgerCustomerView> burgersCustomerView =
+    final List<BurgerCustomerDto> burgersCustomerView =
         pagedBurgers.stream()
-            .map(BurgerMapper.INSTANCE::toBurgerCustomerView)
+            .map(BurgerMapper.INSTANCE::toBurgerCustomerDto)
             .collect(Collectors.toList());
 
     log.info("Returning Page of burgers with customer view");
 
-    return new BurgerCustomerViewPagedList(
+    return new BurgerCustomerDtoPagedList(
         burgersCustomerView,
         PageRequest.of(
             pagedBurgers.getPageable().getPageNumber(), pagedBurgers.getPageable().getPageSize()),
@@ -76,7 +76,7 @@ public class BurgerCustomerController {
               + "In case of a wrong query, the corresponding \"NoSuchElementException\" is being handled with a basic HTML page, describing the error. Offensively\"")
   @GetMapping("/burgers/name")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerCustomerView getBurgerByName(
+  public BurgerCustomerDto getBurgerByName(
       @ApiParam(value = "The burger name or part of the burger's name, queried by the user")
           @RequestParam("name")
           final String name) {
@@ -85,7 +85,7 @@ public class BurgerCustomerController {
 
     if (burger.isPresent()) {
       log.info("Returning burger with customer view and name, containing " + name);
-      return BurgerMapper.INSTANCE.toBurgerCustomerView(burger.get());
+      return BurgerMapper.INSTANCE.toBurgerCustomerDto(burger.get());
     } else {
       throw new NoSuchElementException(String.format("Burger containing \"%s\" not found", name));
     }
@@ -98,11 +98,11 @@ public class BurgerCustomerController {
               + "The assumption is that there is no use case where an admin user would want to randomly access a burger")
   @GetMapping("/burgers/random")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerCustomerView getRandomBurger() {
+  public BurgerCustomerDto getRandomBurger() {
 
     log.info("Returning random burger");
 
-    return BurgerMapper.INSTANCE.toBurgerCustomerView(burgerService.getRandomBurger());
+    return BurgerMapper.INSTANCE.toBurgerCustomerDto(burgerService.getRandomBurger());
   }
 
   @ApiOperation(
@@ -112,13 +112,13 @@ public class BurgerCustomerController {
               + "the method simply returns a JSON representation of the composed burger in customer view")
   @GetMapping("/burgers/compose")
   @ResponseStatus(HttpStatus.CREATED)
-  public BurgerCustomerComposed addBurger(
+  public BurgerComposedDto addBurger(
       @ApiParam(
               value =
                   "Command object, containing the necessary information for composing a new burger")
           @Valid
           @RequestBody
-          final BurgerCustomerCommand input,
+          final ComposeBurgerCustomerRequest input,
       final BindingResult bindingResult) {
 
     if (bindingResult.hasErrors()) {
@@ -129,7 +129,7 @@ public class BurgerCustomerController {
               "Returning \"%s\" burger, composed by customer with %d ingredients",
               input.getName(), input.getIngredients().size()));
 
-      return BurgerMapper.INSTANCE.toBurgerCustomerComposed(input);
+      return BurgerMapper.INSTANCE.toBurgerComposedDto(input);
     }
   }
 }

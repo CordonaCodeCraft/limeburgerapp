@@ -1,4 +1,4 @@
-package com.limeburger.domain.burger.dto.admin;
+package com.limeburger.domain.burger.model.admin;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,16 +11,16 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static com.limeburger.domain.burger.model.Burger.BurgerType;
+import static com.limeburger.domain.burger.entity.Burger.BurgerType;
 
 @ApiModel(
-    value = "Command object for creating new burgers by an admin user",
+    value = "Command object for creating new burgers by an admin request",
     description =
         "This object is being passed to the Admin API and is being consumed by the \"/api/v1/admin/burgers/create\" endpoint.\n"
             + "The object contains attributes, required for creating a new burger, validated with constraints\n")
 @Data
 @Builder
-public class BurgerAdminCommand {
+public class CreateBurgerAdminRequest {
 
   @ApiModelProperty(value = "Enum for burger types", required = true)
   @NotNull(message = "Burger type can not be empty")

@@ -1,10 +1,10 @@
 package com.limeburger.domain.burger.controller.admin;
 
-import com.limeburger.domain.burger.dto.admin.BurgerAdminCommand;
-import com.limeburger.domain.burger.dto.admin.BurgerAdminView;
-import com.limeburger.domain.burger.dto.admin.BurgerAdminViewPagedList;
+import com.limeburger.domain.burger.model.admin.BurgerAdminDto;
+import com.limeburger.domain.burger.model.admin.CreateBurgerAdminRequest;
+import com.limeburger.domain.burger.model.admin.BurgerAdminDtoPagedList;
 import com.limeburger.domain.burger.mapper.BurgerMapper;
-import com.limeburger.domain.burger.model.Burger;
+import com.limeburger.domain.burger.entity.Burger;
 import com.limeburger.domain.burger.service.BurgerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,18 +47,18 @@ public class BurgerAdminController {
       notes = "The burgers are being displayed in admin view")
   @GetMapping("/burgers")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerAdminViewPagedList getAllBurgersAsPage(final Pageable pageable) {
+  public BurgerAdminDtoPagedList getAllBurgersAsPage(final Pageable pageable) {
 
     final Page<Burger> pagedBurgers = burgerService.findAllBurgers(pageable);
 
-    final List<BurgerAdminView> burgersAdminView =
+    final List<BurgerAdminDto> burgersAdminView =
         pagedBurgers.stream()
-            .map(BurgerMapper.INSTANCE::toBurgerAdminView)
+            .map(BurgerMapper.INSTANCE::toBurgerAdminDto)
             .collect(Collectors.toList());
 
     log.info("Returning Page of burgers with admin view");
 
-    return new BurgerAdminViewPagedList(
+    return new BurgerAdminDtoPagedList(
         burgersAdminView,
         PageRequest.of(
             pagedBurgers.getPageable().getPageNumber(), pagedBurgers.getPageable().getPageSize()),
@@ -73,7 +73,7 @@ public class BurgerAdminController {
               + "In case of a wrong query, the corresponding \"NoSuchElementException\" is being handled with a basic HTML page, describing the error. Offensively\"")
   @GetMapping("/burgers/id")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerAdminView getBurgerByName(
+  public BurgerAdminDto getBurgerByName(
       @ApiParam(value = "The burger id, queried by the user") @RequestParam(value = "id")
           final Long id) {
 
@@ -81,7 +81,7 @@ public class BurgerAdminController {
 
     if (burger.isPresent()) {
       log.info(String.format("Returning burger with ID %d", id));
-      return BurgerMapper.INSTANCE.toBurgerAdminView(burger.get());
+      return BurgerMapper.INSTANCE.toBurgerAdminDto(burger.get());
     } else {
       throw new NoSuchElementException(String.format("Burger with ID %d not found", id));
     }
@@ -97,7 +97,7 @@ public class BurgerAdminController {
               + "In case of a wrong query, the corresponding \"NoSuchElementException\" is being handled with a basic HTML page, describing the error. Offensively\"")
   @GetMapping("/burgers/name")
   @ResponseStatus(HttpStatus.OK)
-  public BurgerAdminView getBurgerByName(
+  public BurgerAdminDto getBurgerByName(
       @ApiParam(value = "The burger name or part of the burger's name, queried by the user")
           @RequestParam(value = "name")
           final String name) {
@@ -106,7 +106,7 @@ public class BurgerAdminController {
 
     if (burger.isPresent()) {
       log.info("Returning burger with admin view and name, containing " + name);
-      return BurgerMapper.INSTANCE.toBurgerAdminView(burger.get());
+      return BurgerMapper.INSTANCE.toBurgerAdminDto(burger.get());
     } else {
       throw new NoSuchElementException(String.format("Burger containing \"%s\" not found", name));
     }
@@ -119,13 +119,13 @@ public class BurgerAdminController {
               + "In contrast - the customers can compose a burger with a preferred list of ingredients")
   @PostMapping("/burgers/create")
   @ResponseStatus(HttpStatus.CREATED)
-  public BurgerAdminView addBurger(
+  public BurgerAdminDto addBurger(
       @ApiParam(
               value =
                   "Command object, containing the necessary information for creating a new burger")
           @Valid
           @RequestBody
-          final BurgerAdminCommand input,
+          final CreateBurgerAdminRequest input,
       final BindingResult bindingResult) {
 
     if (bindingResult.hasErrors()) {
@@ -145,7 +145,7 @@ public class BurgerAdminController {
       log.info(logBuilder.toString());
 
       final Optional<Burger> burger = burgerService.addNewBurger(input);
-      return BurgerMapper.INSTANCE.toBurgerAdminView(burger.get());
+      return BurgerMapper.INSTANCE.toBurgerAdminDto(burger.get());
     }
   }
 }

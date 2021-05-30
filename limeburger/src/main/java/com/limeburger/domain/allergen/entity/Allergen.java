@@ -1,10 +1,11 @@
-package com.limeburger.domain.allergen.model;
+package com.limeburger.domain.allergen.entity;
 
-import com.limeburger.domain.BaseEntity;
-import com.limeburger.domain.ingredient.model.Ingredient;
+import com.limeburger.domain.base.BaseEntity;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Table(name = "allergens")
 @Getter
 @Setter
+@ToString
 @SuperBuilder
 @NoArgsConstructor
 public class Allergen extends BaseEntity {
@@ -46,6 +48,7 @@ public class Allergen extends BaseEntity {
       message = "Danger index must be between 1 (inclusive) and 10 (inclusive) points")
   private Integer dangerIndex;
 
+  @ToString.Exclude
   @ManyToMany(mappedBy = "allergens")
   private Set<Ingredient> ingredients;
 
@@ -72,22 +75,6 @@ public class Allergen extends BaseEntity {
   @Override
   public int hashCode() {
     return new HashCodeBuilder().append(this.allergenType.type).toHashCode();
-  }
-
-  @Override
-  public String toString() {
-    return "Allergen{"
-        + "allergenType="
-        + allergenType
-        + ", description='"
-        + description
-        + '\''
-        + ", imageUrl='"
-        + imageUrl
-        + '\''
-        + ", dangerIndex="
-        + dangerIndex
-        + '}';
   }
 
   public enum AllergenType {
