@@ -52,7 +52,7 @@ public class BurgerCustomerController {
 
     final Page<Burger> pagedBurgers = burgerService.findAllBurgers(pageable);
 
-    final List<BurgerCustomerDto> burgersCustomerView =
+    final List<BurgerCustomerDto> burgersCustomerDto =
         pagedBurgers.stream()
             .map(BurgerMapper.INSTANCE::toBurgerCustomerDto)
             .collect(Collectors.toList());
@@ -60,7 +60,7 @@ public class BurgerCustomerController {
     log.info("Returning Page of burgers with customer view");
 
     return new BurgerCustomerDtoPagedList(
-        burgersCustomerView,
+        burgersCustomerDto,
         PageRequest.of(
             pagedBurgers.getPageable().getPageNumber(), pagedBurgers.getPageable().getPageSize()),
         pagedBurgers.getTotalElements());

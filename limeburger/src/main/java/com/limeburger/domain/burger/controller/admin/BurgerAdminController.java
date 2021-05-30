@@ -51,7 +51,7 @@ public class BurgerAdminController {
 
     final Page<Burger> pagedBurgers = burgerService.findAllBurgers(pageable);
 
-    final List<BurgerAdminDto> burgersAdminView =
+    final List<BurgerAdminDto> burgersAdminDto =
         pagedBurgers.stream()
             .map(BurgerMapper.INSTANCE::toBurgerAdminDto)
             .collect(Collectors.toList());
@@ -59,7 +59,7 @@ public class BurgerAdminController {
     log.info("Returning Page of burgers with admin view");
 
     return new BurgerAdminDtoPagedList(
-        burgersAdminView,
+        burgersAdminDto,
         PageRequest.of(
             pagedBurgers.getPageable().getPageNumber(), pagedBurgers.getPageable().getPageSize()),
         pagedBurgers.getTotalElements());
@@ -132,19 +132,10 @@ public class BurgerAdminController {
       throw new NumberFormatException("Burger not valid");
     } else {
 
-      final StringBuilder logBuilder = new StringBuilder();
-      logBuilder.append(System.lineSeparator());
-      logBuilder.append("Creating new burger in database:");
-      logBuilder.append(System.lineSeparator());
-      logBuilder.append("Type: ").append(input.getBurgerType());
-      logBuilder.append(System.lineSeparator());
-      logBuilder.append("Name: ").append(input.getName());
-      logBuilder.append(System.lineSeparator());
-      logBuilder.append("Ingredients Count: ").append(input.getIngredients().size());
-
-      log.info(logBuilder.toString());
+      log.info("Adding new burger in database");
 
       final Optional<Burger> burger = burgerService.addNewBurger(input);
+
       return BurgerMapper.INSTANCE.toBurgerAdminDto(burger.get());
     }
   }
