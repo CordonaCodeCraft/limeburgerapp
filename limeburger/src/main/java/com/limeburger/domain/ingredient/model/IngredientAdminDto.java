@@ -31,6 +31,4 @@ public class IngredientAdminDto {
   @ApiModelProperty(value = "Ingredient's purchase price", required = true)
   private String purchasePrice;
 
-  @ApiModelProperty(value = "A collection of burgers names, containing this ingredient", required = true)
-  private List<String> burgersContainingIngredient;
 }

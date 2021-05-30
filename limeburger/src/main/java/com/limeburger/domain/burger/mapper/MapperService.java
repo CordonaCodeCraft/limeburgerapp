@@ -69,20 +69,6 @@ public interface MapperService {
     target.setIngredientsCostTotal(getFormattedDecimalString(getIngredientsCostTotal(source)));
   }
 
-  // todo: investigate why List size is zero
-  @AfterMapping
-  default void setIngredientAdminDtoContainingIngredient(
-      final Ingredient source, @MappingTarget final IngredientAdminDto target) {
-
-    //    final List<String> burgerNames =
-    //        ingredient.getBurgers().stream()
-    //            .filter(b -> b.getIngredients().contains(ingredient))
-    //            .map(Burger::getName)
-    //            .collect(Collectors.toList());
-
-    target.setBurgersContainingIngredient(null);
-  }
-
   @AfterMapping
   default void setBurgerAdminDtoProfitExpected(
       final Burger source, @MappingTarget final BurgerAdminDto target) {
