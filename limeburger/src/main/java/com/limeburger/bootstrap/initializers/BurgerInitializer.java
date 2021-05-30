@@ -34,10 +34,10 @@ public class BurgerInitializer extends Initializer {
             .description("Great burger with a lot of lime and chains")
             .imageUrl(BURGER_IMAGES_PATH + "chickenBurger.jpg")
             .ingredients(new HashSet<>())
-            .profitCoefficient(BigDecimal.valueOf(0.10))
+            .profitCoefficient(BigDecimal.valueOf(2.50))
             .isInPromotion(true)
             .discountCoefficient(BigDecimal.valueOf(0.5))
-            .productionCost(BigDecimal.valueOf(2.00))
+            .productionCost(BigDecimal.valueOf(1.00))
             .build();
 
     final Burger savedLimeBurger =
@@ -52,10 +52,10 @@ public class BurgerInitializer extends Initializer {
             .description("Great burger with a lot of great code")
             .imageUrl(BURGER_IMAGES_PATH + "fishBurger.jpg")
             .ingredients(new HashSet<>())
-            .profitCoefficient(BigDecimal.valueOf(0.10))
+            .profitCoefficient(BigDecimal.valueOf(3.00))
             .isInPromotion(false)
             .discountCoefficient(BigDecimal.ZERO)
-            .productionCost(BigDecimal.valueOf(2.50))
+            .productionCost(BigDecimal.valueOf(1.50))
             .build();
 
     final Burger savedHederaBurger =
@@ -70,10 +70,10 @@ public class BurgerInitializer extends Initializer {
             .description("Great burger with a lot of potential")
             .imageUrl(BURGER_IMAGES_PATH + "porkBurger.jpg")
             .ingredients(new HashSet<>())
-            .profitCoefficient(BigDecimal.valueOf(1.00))
+            .profitCoefficient(BigDecimal.valueOf(2.00))
             .isInPromotion(false)
             .discountCoefficient(BigDecimal.ZERO)
-            .productionCost(BigDecimal.valueOf(3.50))
+            .productionCost(BigDecimal.valueOf(1.00))
             .build();
 
     final Burger savedHyperLedgerBurger =
@@ -88,10 +88,10 @@ public class BurgerInitializer extends Initializer {
             .description("Master burger for masters")
             .imageUrl(BURGER_IMAGES_PATH + "veganBurger.jpg")
             .ingredients(new HashSet<>())
-            .profitCoefficient(BigDecimal.valueOf(1.00))
+            .profitCoefficient(BigDecimal.valueOf(3.00))
             .isInPromotion(true)
             .discountCoefficient(BigDecimal.valueOf(0.5))
-            .productionCost(BigDecimal.valueOf(5.50))
+            .productionCost(BigDecimal.valueOf(3.50))
             .build();
 
     final Burger savedIdoneusBurger =
@@ -106,10 +106,10 @@ public class BurgerInitializer extends Initializer {
             .description("Expensive burger for devs with deep pockets")
             .imageUrl(BURGER_IMAGES_PATH + "veggieBurger.jpg")
             .ingredients(new HashSet<>())
-            .profitCoefficient(BigDecimal.valueOf(1.00))
+            .profitCoefficient(BigDecimal.valueOf(2.50))
             .isInPromotion(false)
             .discountCoefficient(BigDecimal.ZERO)
-            .productionCost(BigDecimal.valueOf(10.00))
+            .productionCost(BigDecimal.valueOf(3.22))
             .build();
 
     final Burger savedRaiffeisenBurger =
