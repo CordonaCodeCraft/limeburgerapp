@@ -191,6 +191,7 @@ public class BurgersInitializer extends Initializer {
            "productionCost" : 1.0
 }
 ----
+
 The admin user consumes the burger as `BurgerAdminDto` with details, tailored for this type of user (the ingredients are also tailored for the admin user with `IngredientAdminDto`)
 
 [source,JSON]
@@ -226,6 +227,7 @@ The admin user consumes the burger as `BurgerAdminDto` with details, tailored fo
             "profitExpected": "4.375"
         }
 ----
+
 The `ingredientsCostTotal` and `profitExpected` are not predefined, but are being calculated during the Burger to BurgerAdminDto mapping process.
 
 [source,java]
@@ -259,7 +261,8 @@ public interface MapperService {
 
 ==== Customer API
 
-. A customer user can query the burgers only by name. The presumption is that a customer is not aware of the ids of the burgers.
+. A customer user can query the burgers only by name.
+The presumption is that a customer is not aware of the ids of the burgers.
 
 . The customer user consumes the burger as `BurgerCustomerDto` with details, tailored for this type of user (the ingredients are also tailored for the customer user with `IngredientCustomerDto`)
 
@@ -370,7 +373,8 @@ A customer can compose a burger with preferred ingredients with `ComposeBurgerCu
 }
 ----
 
-- The composed burger is not being persisted in the database. The respective Controller method returns JSON representation of `BurgerComposedDto`.
+- The composed burger is not being persisted in the database.
+The respective Controller method returns JSON representation of `BurgerComposedDto`.
 
 - This functionality mimics the feature where the customer can "assemble" his burger by check boxing ingredients in the UI.
 After clicking "Next" (or "Order") he can preview the composed burger with details about the ingredients, the grammage of the burger, calories (not implemented), and the price of the burger.
@@ -463,11 +467,12 @@ A customer ( if feeling lucky and adventurous :) ) can query a random burger.
 
 Follow the Light Side, Jedi.
 
-This demo naively explores mainly happy paths. Comprehensive error and exception handling can be implemented at a later stage.
+This demo naively explores mainly happy paths.
+Comprehensive error and exception handling can be implemented at a later stage.
 
 There is some exception handling though and issues are being created for handling others.
 
-- https://www.youtube.com/watch?v=eExL1VLkQYk[Do or Do not there is not try]
+- https://www.youtube.com/watch?v=eExL1VLkQYk[Do or Do not there is no try]
 
 The demo is not being covered by a test suite.
 

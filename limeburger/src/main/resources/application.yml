@@ -23,7 +23,7 @@ bucket4j:
       url: /api/v1/customer.*
       http-response-body: "{ \"Too many requests! Try again later...\" }"
       rate-limits:
-          - bandwidths:
+        - bandwidths:
             - capacity: 3600
               time: 1
               unit: hours

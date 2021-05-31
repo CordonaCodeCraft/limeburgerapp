@@ -1,11 +1,11 @@
 package com.limeburger.domain.burger.controller.customer;
 
-import com.limeburger.domain.burger.model.customer.BurgerCustomerDto;
-import com.limeburger.domain.burger.model.customer.ComposeBurgerCustomerRequest;
-import com.limeburger.domain.burger.model.customer.BurgerComposedDto;
-import com.limeburger.domain.burger.model.customer.BurgerCustomerDtoPagedList;
-import com.limeburger.domain.burger.mapper.BurgerMapper;
 import com.limeburger.domain.burger.entity.Burger;
+import com.limeburger.domain.burger.mapper.BurgerMapper;
+import com.limeburger.domain.burger.model.customer.BurgerComposedDto;
+import com.limeburger.domain.burger.model.customer.BurgerCustomerDto;
+import com.limeburger.domain.burger.model.customer.BurgerCustomerDtoPagedList;
+import com.limeburger.domain.burger.model.customer.ComposeBurgerCustomerRequest;
 import com.limeburger.domain.burger.service.BurgerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

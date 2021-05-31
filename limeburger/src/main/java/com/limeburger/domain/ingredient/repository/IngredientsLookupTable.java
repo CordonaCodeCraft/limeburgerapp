@@ -12,9 +12,8 @@ import java.util.Map;
 @Getter
 public class IngredientsLookupTable {
 
-  //To prevent any instantiation of this class
-  private IngredientsLookupTable() {
-  }
+  // To prevent any instantiation of this class
+  private IngredientsLookupTable() {}
 
   private static final Map<String, Ingredient> ingredientsTable = new HashMap<>();
 

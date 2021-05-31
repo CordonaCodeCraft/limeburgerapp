@@ -1,16 +1,16 @@
 package com.limeburger.domain.burger.mapper;
 
-import com.limeburger.domain.allergen.model.AllergenCustomerDto;
 import com.limeburger.domain.allergen.mapper.AllergenMapper;
+import com.limeburger.domain.allergen.model.AllergenCustomerDto;
+import com.limeburger.domain.burger.entity.Burger;
 import com.limeburger.domain.burger.model.admin.BurgerAdminDto;
 import com.limeburger.domain.burger.model.customer.BurgerComposedDto;
 import com.limeburger.domain.burger.model.customer.BurgerCustomerDto;
 import com.limeburger.domain.burger.model.customer.ComposeBurgerCustomerRequest;
-import com.limeburger.domain.burger.entity.Burger;
+import com.limeburger.domain.ingredient.entity.Ingredient;
+import com.limeburger.domain.ingredient.mapper.IngredientMapper;
 import com.limeburger.domain.ingredient.model.IngredientAdminDto;
 import com.limeburger.domain.ingredient.model.IngredientCustomerDto;
-import com.limeburger.domain.ingredient.mapper.IngredientMapper;
-import com.limeburger.domain.ingredient.entity.Ingredient;
 import com.limeburger.domain.ingredient.repository.IngredientsLookupTable;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -28,7 +28,10 @@ public interface BurgerMapper extends MapperService {
 
   BurgerMapper INSTANCE = Mappers.getMapper(BurgerMapper.class);
 
-  @Mapping(source = "burgerType", target = "type", qualifiedByName = "BurgerEnumToBurgerStringValue")
+  @Mapping(
+      source = "burgerType",
+      target = "type",
+      qualifiedByName = "BurgerEnumToBurgerStringValue")
   @Mapping(
       source = "ingredients",
       target = "ingredients",
@@ -43,7 +46,10 @@ public interface BurgerMapper extends MapperService {
       qualifiedByName = "promotionBooleanToPromotionString")
   BurgerCustomerDto toBurgerCustomerDto(final Burger source);
 
-  @Mapping(source = "burgerType", target = "type", qualifiedByName = "BurgerEnumToBurgerStringValue")
+  @Mapping(
+      source = "burgerType",
+      target = "type",
+      qualifiedByName = "BurgerEnumToBurgerStringValue")
   @Mapping(
       source = "ingredients",
       target = "ingredients",
@@ -83,8 +89,7 @@ public interface BurgerMapper extends MapperService {
   }
 
   @Named("ingredientsToCustomerDto")
-  static Set<IngredientCustomerDto> convertIngredientsToCustomerDto(
-      final Set<Ingredient> source) {
+  static Set<IngredientCustomerDto> convertIngredientsToCustomerDto(final Set<Ingredient> source) {
     return source.stream()
         .map(IngredientMapper.INSTANCE::toIngredientCustomerDto)
         .collect(Collectors.toSet());

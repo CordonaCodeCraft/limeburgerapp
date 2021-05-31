@@ -1,7 +1,7 @@
 package com.limeburger.domain.burger.service.impl;
 
-import com.limeburger.domain.burger.model.admin.CreateBurgerAdminRequest;
 import com.limeburger.domain.burger.entity.Burger;
+import com.limeburger.domain.burger.model.admin.CreateBurgerAdminRequest;
 import com.limeburger.domain.burger.repository.BurgerRepository;
 import com.limeburger.domain.burger.service.BurgerService;
 import com.limeburger.domain.ingredient.entity.Ingredient;
@@ -84,7 +84,8 @@ public class BurgerServiceImpl implements BurgerService {
 
   @Override
   public List<Burger> saveAll(final List<Burger> burgers) {
-    burgers.forEach(burger -> log.info(String.format("Saved \"%s\" burger in database", burger.getName())));
+    burgers.forEach(
+        burger -> log.info(String.format("Saved \"%s\" burger in database", burger.getName())));
     log.info(String.format("Saved a total of %d burgers in database", burgers.size()));
     return burgerRepository.saveAll(burgers);
   }

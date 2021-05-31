@@ -1,10 +1,10 @@
 package com.limeburger.domain.burger.controller.admin;
 
-import com.limeburger.domain.burger.model.admin.BurgerAdminDto;
-import com.limeburger.domain.burger.model.admin.CreateBurgerAdminRequest;
-import com.limeburger.domain.burger.model.admin.BurgerAdminDtoPagedList;
-import com.limeburger.domain.burger.mapper.BurgerMapper;
 import com.limeburger.domain.burger.entity.Burger;
+import com.limeburger.domain.burger.mapper.BurgerMapper;
+import com.limeburger.domain.burger.model.admin.BurgerAdminDto;
+import com.limeburger.domain.burger.model.admin.BurgerAdminDtoPagedList;
+import com.limeburger.domain.burger.model.admin.CreateBurgerAdminRequest;
 import com.limeburger.domain.burger.service.BurgerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

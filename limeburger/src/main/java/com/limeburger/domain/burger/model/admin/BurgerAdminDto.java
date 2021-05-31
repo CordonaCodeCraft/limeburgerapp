@@ -14,13 +14,17 @@ public class BurgerAdminDto {
   @ApiModelProperty(value = "String representation of the id", required = true)
   private String id;
 
-  @ApiModelProperty(value = "String representation of the burger type (Meat, Vegetarian, Vegan, etc)", required = true)
+  @ApiModelProperty(
+      value = "String representation of the burger type (Meat, Vegetarian, Vegan, etc)",
+      required = true)
   private String type;
 
   @ApiModelProperty(value = "Burger's name", required = true)
   private String name;
 
-  @ApiModelProperty(value = "Collection of ingredients with attributes, tailored for an admin user", required = true)
+  @ApiModelProperty(
+      value = "Collection of ingredients with attributes, tailored for an admin user",
+      required = true)
   private Set<IngredientAdminDto> ingredients;
 
   @ApiModelProperty(value = "Informs about the promotion status of the burger", required = true)
@@ -29,12 +33,16 @@ public class BurgerAdminDto {
   @ApiModelProperty(value = "Informs about the discount coefficient of the burger", required = true)
   private String discountCoefficient;
 
-  @ApiModelProperty(value = "Visualizes the calculation of the total cost of the ingredients of the burger", required = true)
+  @ApiModelProperty(
+      value = "Visualizes the calculation of the total cost of the ingredients of the burger",
+      required = true)
   private String ingredientsCostTotal;
 
   @ApiModelProperty(value = "Informs about the promotion status of the burger", required = true)
   private String productionCost;
 
-  @ApiModelProperty(value = "Visualizes the calculation of the expected profit of selling the burger", required = true)
+  @ApiModelProperty(
+      value = "Visualizes the calculation of the expected profit of selling the burger",
+      required = true)
   private String profitExpected;
 }

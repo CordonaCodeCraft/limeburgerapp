@@ -56,7 +56,8 @@ public class CreateBurgerAdminRequest {
   private List<String> ingredients;
 
   @ApiModelProperty(
-      value = "Profit coefficient, used for the calculation of the expected profit (min 0.10 / max 3.00)",
+      value =
+          "Profit coefficient, used for the calculation of the expected profit (min 0.10 / max 3.00)",
       required = true)
   @NotNull(message = "Profit coefficient can not be null")
   @DecimalMin(value = "0.10", message = "Profit coefficient can not be lesser than 0.10")

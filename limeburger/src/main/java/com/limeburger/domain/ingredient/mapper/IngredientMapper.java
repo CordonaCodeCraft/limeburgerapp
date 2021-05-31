@@ -1,9 +1,9 @@
 package com.limeburger.domain.ingredient.mapper;
 
 import com.limeburger.domain.burger.mapper.MapperService;
+import com.limeburger.domain.ingredient.entity.Ingredient;
 import com.limeburger.domain.ingredient.model.IngredientAdminDto;
 import com.limeburger.domain.ingredient.model.IngredientCustomerDto;
-import com.limeburger.domain.ingredient.entity.Ingredient;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;

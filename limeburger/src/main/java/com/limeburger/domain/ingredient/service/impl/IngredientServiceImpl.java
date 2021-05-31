@@ -37,7 +37,8 @@ public class IngredientServiceImpl implements IngredientService {
   @Override
   public List<Ingredient> saveAll(final List<Ingredient> ingredients) {
     ingredients.forEach(
-        ingredient -> log.info(String.format("Saved \"%s\" ingredient in database", ingredient.getName())));
+        ingredient ->
+            log.info(String.format("Saved \"%s\" ingredient in database", ingredient.getName())));
     log.info(String.format("Saved a total of %d ingredients in database", ingredients.size()));
     return ingredientRepository.saveAll(ingredients);
   }

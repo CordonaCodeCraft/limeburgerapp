@@ -10,7 +10,7 @@ import java.util.List;
 public class BurgerCustomerDtoPagedList extends PageImpl<BurgerCustomerDto> {
 
   public BurgerCustomerDtoPagedList(
-          final List<BurgerCustomerDto> content, final Pageable pageable, final long total) {
+      final List<BurgerCustomerDto> content, final Pageable pageable, final long total) {
     super(content, pageable, total);
   }
 

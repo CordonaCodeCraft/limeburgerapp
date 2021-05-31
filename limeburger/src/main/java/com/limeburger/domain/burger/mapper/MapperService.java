@@ -1,11 +1,10 @@
 package com.limeburger.domain.burger.mapper;
 
+import com.limeburger.domain.burger.entity.Burger;
 import com.limeburger.domain.burger.model.admin.BurgerAdminDto;
+import com.limeburger.domain.burger.model.customer.BurgerComposedDto;
 import com.limeburger.domain.burger.model.customer.BurgerCustomerDto;
 import com.limeburger.domain.burger.model.customer.ComposeBurgerCustomerRequest;
-import com.limeburger.domain.burger.model.customer.BurgerComposedDto;
-import com.limeburger.domain.burger.entity.Burger;
-import com.limeburger.domain.ingredient.model.IngredientAdminDto;
 import com.limeburger.domain.ingredient.entity.Ingredient;
 import com.limeburger.domain.ingredient.repository.IngredientsLookupTable;
 import org.mapstruct.AfterMapping;
@@ -39,7 +38,7 @@ public interface MapperService {
 
   @AfterMapping
   default void setBurgerComposedDtoPrice(
-          final ComposeBurgerCustomerRequest source, @MappingTarget final BurgerComposedDto target) {
+      final ComposeBurgerCustomerRequest source, @MappingTarget final BurgerComposedDto target) {
 
     final BigDecimal priceTotal =
         source.getIngredients().stream()
@@ -52,7 +51,7 @@ public interface MapperService {
 
   @AfterMapping
   default void setBurgerComposedDtoGrammage(
-          final ComposeBurgerCustomerRequest source, @MappingTarget final BurgerComposedDto target) {
+      final ComposeBurgerCustomerRequest source, @MappingTarget final BurgerComposedDto target) {
 
     final Integer grammageTotal =
         source.getIngredients().stream()

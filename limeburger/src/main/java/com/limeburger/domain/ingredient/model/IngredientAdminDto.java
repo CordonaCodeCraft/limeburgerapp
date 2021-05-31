@@ -4,8 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.List;
-
 @ApiModel(value = "DTO for displaying an ingredient with attributes, tailored for an admin user")
 @Data
 public class IngredientAdminDto {
@@ -13,7 +11,9 @@ public class IngredientAdminDto {
   @ApiModelProperty(value = "String representation of the id", required = true)
   private String id;
 
-  @ApiModelProperty(value = "String representation of the ingredient type (Milk, Gluten, Fish, etc)", required = true)
+  @ApiModelProperty(
+      value = "String representation of the ingredient type (Milk, Gluten, Fish, etc)",
+      required = true)
   private String type;
 
   @ApiModelProperty(value = "Ingredient's name", required = true)
@@ -30,5 +30,4 @@ public class IngredientAdminDto {
 
   @ApiModelProperty(value = "Ingredient's purchase price", required = true)
   private String purchasePrice;
-
 }

@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @ApiModel(value = "DTO for displaying an allergen with attributes, tailored for a customer user")
-
 @Data
 public class AllergenCustomerDto {
 

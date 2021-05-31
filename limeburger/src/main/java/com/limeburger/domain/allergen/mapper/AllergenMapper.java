@@ -1,7 +1,7 @@
 package com.limeburger.domain.allergen.mapper;
 
-import com.limeburger.domain.allergen.model.AllergenCustomerDto;
 import com.limeburger.domain.allergen.entity.Allergen;
+import com.limeburger.domain.allergen.model.AllergenCustomerDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
