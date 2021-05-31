@@ -1,0 +1,392 @@
+= Lime Burger API
+
+== Challenge
+
+. https://www.notion.so/Backend-Dev-Task-3eaa4227e5c144c582743d40b372cbf3[Backend Dev Task]
+. https://punkapi.com/documentation/v2[Reference API]
+. https://github.com/CordonaCodeCraft/limeburgerapp/commits/master[Commits]
+. https://github.com/CordonaCodeCraft/limeburgerapp/issues[Issues tracking and project management]
+
+== Backstory
+
+Business is war and wars are being won with happy soldiers.
+
+Lime Chain aims at dominating the business domain and this can be achieved by feeding the soldiers with the best food possible.
+
+The Board of directors decided to expand the company's portfolio with the "Lime Burger" project and to sell top burgers to his employees.
+
+The business model must be profitable as well - so the manager of the project should track the profit from selling burgers.
+
+Every employee is unique and has his preferences and must be provided with the option to "compose" a burger with ingredients by his choice.
+
+Also - to keep the business viral - new burgers must be added occasionally.
+
+And lastly - the employees must be aware of the allergens in the burgers - selling burgers without providing allergen information is illegal.
+
+Additionally - recent research in Lime Chain Labs proved, that when one is exposed to both code and blockchains - he develops specific reactions to the allergens.
+
+Finally - the rumor goes, that burgers are Satoshi Nakamoto's favorite food.
+
+Offering top burgers to Lime Chain employees could convince him to apply for a job at the company.
+
+== Technology Stack
+
+. https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html[JDK 11]
+. https://maven.apache.org/[Maven]
+. https://spring.io/projects/spring-boot[Spring Boot 2.5.0]
+- https://spring.io/guides/gs/actuator-service/[Spring Boot Starter Actuator]
+- https://spring.io/projects/spring-data-jpa[Spring Boot Starter Data JPA]
+- https://spring.io/web-applications[Spring Boot Starter Web]
+- https://www.thymeleaf.org/doc/tutorials/2.1/thymeleafspring.html[Spring Boot Starter Thymeleaf]
+- https://github.com/vladimir-bukhtoyarov/bucket4j[Spring Boot Starter Bucket4j]
+- https://docs.spring.io/spring-boot/docs/1.5.7.RELEASE/reference/html/boot-features-testing.html[Spring Boot Starter Test]
+- https://docs.spring.io/spring-boot/docs/1.5.16.RELEASE/reference/html/using-boot-devtools.html[Spring Boot DevTools]
+- https://spring.io/guides/gs/caching/[Spring Boot Starter Cache]
+. https://www.h2database.com/html/main.html[H2 DB Engine]
+. https://www.mysql.com/[MySQL]
+. https://projectlombok.org/[Lombok]
+. https://mapstruct.org/[MapStruct]
+. https://swagger.io/[Swagger]
+
+== Bucket4j Configuration Tips
+
+- https://github.com/vladimir-bukhtoyarov/bucket4j[Author's configuration tips]
+- https://www.baeldung.com/spring-bucket4j[Baeldung configuration tips]
+
+== Swagger
+
+=== View Project’s Swagger Definition
+
+. Start the application
+
+- *Swagger*-ui: http://localhost:8080/swagger-ui.html
+- View in browser as JSON: http://localhost:8080/v2/api-docs
+
+. There are https://openapi.tools/[many tools] for visualization, edit or use of *Swagger* definitions, like https://editor.swagger.io/[Swagger Editor]
+
+== How to start the project
+
+. Download or clone the project
+. Open the project in your favorite IDE (hopefully - Intellij)
+. Run the project
+
+== Particulars
+
+=== Domain model
+
+. Allergen
+. Ingredient
+. Burger
+
+=== Database initialization
+
+When the application boots, the in-memory database is being initialized with allergens, ingredients, and burgers.
+
+[source,java]
+----
+@Slf4j
+@Component
+public class AllergensInitializer extends Initializer {
+}
+----
+
+[source,java]
+----
+@Slf4j
+@Component
+public class IngredientsInitializer extends Initializer {
+}
+
+----
+
+[source,java]
+----
+@Slf4j
+@Component
+public class BurgersInitializer extends Initializer {
+}
+----
+
+The allergens, associated with the ingredients, are being randomly added as quantity and objects during the ingredients initialization.
+
+[source,java]
+----
+@Slf4j
+@Component
+public class IngredientsInitializer extends Initializer {
+
+    private static Ingredient enrichIngredientWithRandomAllergens(
+      final Ingredient ingredient,
+      final Set<Allergen> allergens,
+      final AllergenService allergenService) {
+
+    log.info(
+        String.format(
+            ">>>>>>>>>> adding %d allergens to %s <<<<<<<<<<",
+            allergens.size(), ingredient.getName()));
+
+    allergens.stream()
+        .map(allergen -> allergenService.getById(allergen.getId()))
+        .forEach(
+            allergen -> {
+              ingredient.addAllergen(allergen);
+              log.info(
+                  String.format(
+                      "Added %s to %s", allergen.getAllergenType().type, ingredient.getName()));
+            });
+
+    return ingredient;
+  }
+}
+----
+
+The ingredients, part of the burgers recipes, are also being randomly added as quantity and objects during the burgers initialization.
+
+[source,java]
+----
+@Slf4j
+@Component
+public class BurgersInitializer extends Initializer {
+    private static Burger enrichBurgerWithRandomIngredients(
+      final Burger burger,
+      final Set<Ingredient> ingredients,
+      final IngredientService ingredientService) {
+
+    log.info(
+        String.format(
+            ">>>>>>>>>> adding %d ingredients to %s <<<<<<<<<<",
+            ingredients.size(), burger.getName()));
+
+    ingredients.stream()
+        .map(i -> ingredientService.getById(i.getId()))
+        .forEach(
+            ingredient -> {
+              burger.addIngredient(ingredient);
+              log.info(String.format("Added %s to %s", ingredient.getName(), burger.getName()));
+            });
+    return burger;
+  }
+}
+----
+
+=== APIs
+
+==== Admin API
+
+. An admin user can query the burgers by ID and by name
+
+. Only an admin user can persist new burgers in the database with `CreateBurgerAdminRequest`
+
+[source,JSON]
+----
+{
+           "burgerType" : "MEAT",
+           "name" : "Satoshi Nakamoto",
+           "description" : "This burger is carefully design to lure Satoshi Nakamoto out of his hideout and to apply for a job at Lime Chain as Junior Java Developer",
+           "imageUrl" : "https://photos.app.goo.gl/bSrPfnjHjKF6kKSm7",
+           "ingredients" : [ "Chicken meat", "White bread", "Onion salad", "Barbeque sauce" ],
+           "profitCoefficient" : 2.0,
+           "isInPromotion" : false,
+           "discountCoefficient" : 0.5,
+           "productionCost" : 1.0
+}
+----
+. The admin user consumes the burger as `BurgerAdminDto` with details, tailored for this type of user (the ingredients are also tailored for the admin user with `IngredientAdminDto`)
+
+[source,JSON]
+----
+{
+            "id": "26",
+            "type": "Meat burger",
+            "name": "Lime burger",
+            "ingredients": [
+                {
+                    "id": "16",
+                    "type": "Meat",
+                    "name": "Pork meat",
+                    "description": "Yummy yummy pork meat",
+                    "grammage": "100",
+                    "sellingPrice": "2.5",
+                    "purchasePrice": "1.5"
+                },
+                {
+                    "id": "14",
+                    "type": "Meat",
+                    "name": "Chicken meat",
+                    "description": "Tasty chicken meat",
+                    "grammage": "100",
+                    "sellingPrice": "2.0",
+                    "purchasePrice": "1.0"
+                }
+            ],
+            "isInPromotion": true,
+            "discountCoefficient": "0.5",
+            "ingredientsCostTotal": "2.5",
+            "productionCost": "1.0",
+            "profitExpected": "4.375"
+        }
+----
+. The `ingredientsCostTotal` and `profitExpected` are not predefined, but are being calculated during the Burger to BurgerAdminDto mapping process.
+
+[source,java]
+----
+public interface MapperService {
+
+  @AfterMapping
+  default void setBurgerAdminViewIngredientsCostTotal(
+      final Burger source, @MappingTarget final BurgerAdminDto target) {
+    target.setIngredientsCostTotal(getFormattedDecimalString(getIngredientsCostTotal(source)));
+  }
+
+  @AfterMapping
+  default void setBurgerAdminDtoProfitExpected(
+      final Burger source, @MappingTarget final BurgerAdminDto target) {
+
+    final BigDecimal ingredientsCostTotal = getIngredientsCostTotal(source);
+    final BigDecimal burgerCostTotal = ingredientsCostTotal.add(source.getProductionCost());
+    final BigDecimal customerPrice = getCustomerPrice(source);
+
+    target.setProfitExpected(getFormattedDecimalString(customerPrice.subtract(burgerCostTotal)));
+  }
+
+  private BigDecimal getIngredientsCostTotal(final Burger source) {
+    return source.getIngredients().stream()
+        .map(Ingredient::getPurchasePrice)
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
+}
+----
+
+==== Customer API
+
+. A customer user can query the burgers only by name. The presumption is that a customer is not aware of the ids of the burgers.
+
+. The customer user consumes the burger as `BurgerCustomerDto` with details, tailored for this type of user (the ingredients are also tailored for the customer user with `IngredientCustomerDto`)
+
+[source,JSON]
+----
+{
+            "type": "Meat burger",
+            "name": "Lime burger",
+            "description": "Great burger with a lot of lime and chains",
+            "imageUrl": "src/main/resources/static/images/burgers/chickenBurger.jpg",
+            "ingredients": [
+                {
+                    "name": "Chicken meat",
+                    "description": "Tasty chicken meat",
+                    "imageUrl": "src/main/resources/static/images/ingredients/meats/chickenMeat.jpg",
+                    "cost": "2.0"
+                },
+                {
+                    "name": "Pork meat",
+                    "description": "Yummy yummy pork meat",
+                    "imageUrl": "src/main/resources/static/images/ingredients/meats/porkMeat.jpg",
+                    "cost": "2.5"
+                }
+            ],
+            "allergens": [
+                {
+                    "name": "Celery",
+                    "description": "Disturbing allergen causing technical interview failure",
+                    "dangerIndex": "9",
+                    "imageUrl": "src/main/resources/static/images/allergens/treenuts.svg"
+                },
+                {
+                    "name": "Fish",
+                    "description": "Lethal allergen causing permanent affection to Hedera Hashgraph",
+                    "dangerIndex": "10",
+                    "imageUrl": "src/main/resources/static/images/allergens/fish.svg"
+                },
+                {
+                    "name": "Soybeans",
+                    "description": "Bad allergen causing unfriendly behaviour in office",
+                    "dangerIndex": "8",
+                    "imageUrl": "src/main/resources/static/images/allergens/seeds.svg"
+                },
+                {
+                    "name": "Sesame seeds",
+                    "description": "Potentially dangerous allergen causing zero tolerance to coffee",
+                    "dangerIndex": "8",
+                    "imageUrl": "src/main/resources/static/images/allergens/seeds.svg"
+                },
+                {
+                    "name": "Molluscs",
+                    "description": "Allergen causing death of imagination for fun allergen descriptions",
+                    "dangerIndex": "3",
+                    "imageUrl": "src/main/resources/static/images/allergens/corn.svg"
+                },
+                {
+                    "name": "Lupin",
+                    "description": "Bad allergen causing drama queen stereotype",
+                    "dangerIndex": "3",
+                    "imageUrl": "src/main/resources/static/images/allergens/legumes.svg"
+                },
+                {
+                    "name": "Celery",
+                    "description": "Fatal allergen triggering deadly butterfly effects on the cryptocurrency market",
+                    "dangerIndex": "7",
+                    "imageUrl": "src/main/resources/static/images/allergens/dairy.svg"
+                }
+            ],
+            "isInPromotion": "Burger is in promotion",
+            "grammage": "200",
+            "price": "7.875"
+        }
+----
+
+. A customer can compose a burger with preferred ingredients with `ComposeBurgerCustomerRequest`.
+
+[source,JSON]
+----
+{
+            "name" : "My burger",
+            "ingredients" : [ "Chicken meat", "Russian salad", "Sesame bread" ]
+}
+----
+
+- The composed burger is not being persisted in the database. The respective Controller method returns JSON representation of `BurgerComposedDto`.
+
+- This functionality mimics the feature where the customer can "assemble" his burger by check boxing ingredients in the UI.
+After clicking "Next" (or "Order") he can preview the composed burger with details about the ingredients, the grammage of the burger, calories (not implemented), and the price of the burger.
+
+- To avoid expensive database calls when composing a new burger - the implementation consults with `IngredientsLookupTable` to fetch the ingredients, and their attributes like `sellingPrice` and `grammage`
+
+[source,java]
+----
+@Slf4j
+@Getter
+public class IngredientsLookupTable {
+
+  private static final Map<String, Ingredient> ingredientsTable = new HashMap<>();
+
+}
+----
+
+The HashMap is being initialized in the `IngredientsInitializer.class` when the application boots.
+
+. A customer ( if feeling lucky and adventurous :) ) can query a random burger.
+
+== Notes
+
+- Jedis and Siths
+
+Follow the Light Side, Jedi.
+
+This demo naively explores mainly happy paths. Comprehensive error and exception handling can be implemented at a later stage.
+
+There is some exception handling though and issues are being created for handling others.
+
+- https://www.youtube.com/watch?v=eExL1VLkQYk[Do or Do not there is not try]
+
+The demo is not being covered by a test suite.
+
+Tests are extremely important and any dev task is not being completed unless the code is being verified by thorough tests.
+
+I did not have the time to write tests and preferred not to write "some" tests just to prove, that I know how to.
+
+##"Do or Do not there is no try"##
+
+_Yoda_
+
+
+

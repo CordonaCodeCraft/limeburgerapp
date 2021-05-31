@@ -16,7 +16,7 @@ import static com.limeburger.domain.burger.entity.Burger.BurgerType.*;
 
 @Component
 @Slf4j
-public class BurgerInitializer extends Initializer {
+public class BurgersInitializer extends Initializer {
 
   private static final String BURGER_IMAGES_PATH = IMAGES_PATH + "burgers/";
 
@@ -138,9 +138,9 @@ public class BurgerInitializer extends Initializer {
     ingredients.stream()
         .map(i -> ingredientService.getById(i.getId()))
         .forEach(
-            i -> {
-              burger.addIngredient(i);
-              log.info(String.format("Added %s to %s", i.getName(), burger.getName()));
+            ingredient -> {
+              burger.addIngredient(ingredient);
+              log.info(String.format("Added %s to %s", ingredient.getName(), burger.getName()));
             });
     return burger;
   }

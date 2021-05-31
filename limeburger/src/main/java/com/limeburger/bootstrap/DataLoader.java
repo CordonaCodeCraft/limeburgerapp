@@ -1,7 +1,7 @@
 package com.limeburger.bootstrap;
 
 import com.limeburger.bootstrap.initializers.AllergensInitializer;
-import com.limeburger.bootstrap.initializers.BurgerInitializer;
+import com.limeburger.bootstrap.initializers.BurgersInitializer;
 import com.limeburger.bootstrap.initializers.IngredientsInitializer;
 import com.limeburger.domain.allergen.entity.Allergen;
 import com.limeburger.domain.allergen.service.AllergenService;
@@ -31,6 +31,6 @@ public class DataLoader implements ApplicationRunner {
     final List<Ingredient> ingredients =
         IngredientsInitializer.initializeIngredients(ingredientService, allergenService, allergens);
 
-    BurgerInitializer.initializeBurgers(burgerService, ingredientService, ingredients);
+    BurgersInitializer.initializeBurgers(burgerService, ingredientService, ingredients);
   }
 }

@@ -290,12 +290,13 @@ public class IngredientsInitializer extends Initializer {
             allergens.size(), ingredient.getName()));
 
     allergens.stream()
-        .map(a -> allergenService.getById(a.getId()))
+        .map(allergen -> allergenService.getById(allergen.getId()))
         .forEach(
-            a -> {
-              ingredient.addAllergen(a);
+            allergen -> {
+              ingredient.addAllergen(allergen);
               log.info(
-                  String.format("Added %s to %s", a.getAllergenType().type, ingredient.getName()));
+                  String.format(
+                      "Added %s to %s", allergen.getAllergenType().type, ingredient.getName()));
             });
 
     return ingredient;
