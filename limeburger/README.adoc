@@ -191,7 +191,7 @@ public class BurgersInitializer extends Initializer {
            "productionCost" : 1.0
 }
 ----
-. The admin user consumes the burger as `BurgerAdminDto` with details, tailored for this type of user (the ingredients are also tailored for the admin user with `IngredientAdminDto`)
+The admin user consumes the burger as `BurgerAdminDto` with details, tailored for this type of user (the ingredients are also tailored for the admin user with `IngredientAdminDto`)
 
 [source,JSON]
 ----
@@ -226,14 +226,14 @@ public class BurgersInitializer extends Initializer {
             "profitExpected": "4.375"
         }
 ----
-. The `ingredientsCostTotal` and `profitExpected` are not predefined, but are being calculated during the Burger to BurgerAdminDto mapping process.
+The `ingredientsCostTotal` and `profitExpected` are not predefined, but are being calculated during the Burger to BurgerAdminDto mapping process.
 
 [source,java]
 ----
 public interface MapperService {
 
   @AfterMapping
-  default void setBurgerAdminViewIngredientsCostTotal(
+  default void setBurgerAdminDtoIngredientsCostTotal(
       final Burger source, @MappingTarget final BurgerAdminDto target) {
     target.setIngredientsCostTotal(getFormattedDecimalString(getIngredientsCostTotal(source)));
   }
@@ -334,7 +334,33 @@ public interface MapperService {
         }
 ----
 
-. A customer can compose a burger with preferred ingredients with `ComposeBurgerCustomerRequest`.
+As with the `BurgerAdminDto` - `grammage` and `price`  in `BurgerCustomerDto` are also not predefined, but are being calculated during the Burger to BurgerCustomerDto mapping process.
+
+[source,java]
+----
+
+public interface MapperService {
+
+     @AfterMapping
+  default void setBurgerCustomerDtoPrice(
+      final Burger source, @MappingTarget final BurgerCustomerDto target) {
+    target.setPrice(getFormattedDecimalString(getCustomerPrice(source)));
+  }
+
+  @AfterMapping
+  default void setBurgerCustomerDtoGrammage(
+      final Burger source, @MappingTarget final BurgerCustomerDto target) {
+
+    final Integer grammageTotal =
+        source.getIngredients().stream().map(Ingredient::getGrammage).reduce(0, Integer::sum);
+
+    target.setGrammage(String.valueOf(grammageTotal));
+  }
+
+}
+----
+
+A customer can compose a burger with preferred ingredients with `ComposeBurgerCustomerRequest`.
 
 [source,JSON]
 ----
@@ -348,6 +374,71 @@ public interface MapperService {
 
 - This functionality mimics the feature where the customer can "assemble" his burger by check boxing ingredients in the UI.
 After clicking "Next" (or "Order") he can preview the composed burger with details about the ingredients, the grammage of the burger, calories (not implemented), and the price of the burger.
+
+[source,JSON]
+----
+{
+    "name": "My burger",
+    "ingredients": [
+        {
+            "name": "Russian salad",
+            "description": "Calorie bomb russian salad",
+            "imageUrl": "src/main/resources/static/images/ingredients/salads/russianSalad.jpg",
+            "cost": "2.5"
+        },
+        {
+            "name": "Chicken meat",
+            "description": "Tasty chicken meat",
+            "imageUrl": "src/main/resources/static/images/ingredients/meats/chickenMeat.jpg",
+            "cost": "2.0"
+        },
+        {
+            "name": "Sesame bread",
+            "description": "Exotic sesame bread",
+            "imageUrl": "src/main/resources/static/images/ingredients/breads/sesameBread.jpg",
+            "cost": "2.5"
+        }
+    ],
+    "grammage": "280",
+    "price": "7.0"
+}
+----
+
+As with the `BurgerAdminDto` and the `BurgerCustomerDto` - `grammage` and `price`  in `BurgerComposedDto`  are not predefined, but are being calculated during the Burger to BurgerCustomerDto mapping process.
+
+[source,java]
+----
+
+public interface MapperService {
+
+    @AfterMapping
+  default void setBurgerComposedDtoPrice(
+          final ComposeBurgerCustomerRequest source, @MappingTarget final BurgerComposedDto target) {
+
+    final BigDecimal priceTotal =
+        source.getIngredients().stream()
+            .map(ingredient -> IngredientsLookupTable.getTable().get(ingredient))
+            .map(Ingredient::getSellingPrice)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+    target.setPrice(String.valueOf(priceTotal));
+  }
+
+  @AfterMapping
+  default void setBurgerComposedDtoGrammage(
+          final ComposeBurgerCustomerRequest source, @MappingTarget final BurgerComposedDto target) {
+
+    final Integer grammageTotal =
+        source.getIngredients().stream()
+            .map(ingredient -> IngredientsLookupTable.getTable().get(ingredient))
+            .map(Ingredient::getGrammage)
+            .reduce(0, Integer::sum);
+
+    target.setGrammage(String.valueOf(grammageTotal));
+  }
+
+}
+----
 
 - To avoid expensive database calls when composing a new burger - the implementation consults with `IngredientsLookupTable` to fetch the ingredients, and their attributes like `sellingPrice` and `grammage`
 
@@ -364,7 +455,7 @@ public class IngredientsLookupTable {
 
 The HashMap is being initialized in the `IngredientsInitializer.class` when the application boots.
 
-. A customer ( if feeling lucky and adventurous :) ) can query a random burger.
+A customer ( if feeling lucky and adventurous :) ) can query a random burger.
 
 == Notes
 

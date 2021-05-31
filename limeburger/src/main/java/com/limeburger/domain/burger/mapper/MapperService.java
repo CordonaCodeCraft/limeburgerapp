@@ -64,7 +64,7 @@ public interface MapperService {
   }
 
   @AfterMapping
-  default void setBurgerAdminViewIngredientsCostTotal(
+  default void setBurgerAdminDtoIngredientsCostTotal(
       final Burger source, @MappingTarget final BurgerAdminDto target) {
     target.setIngredientsCostTotal(getFormattedDecimalString(getIngredientsCostTotal(source)));
   }
